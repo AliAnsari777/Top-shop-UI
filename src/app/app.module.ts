@@ -8,7 +8,6 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { NgxImgZoomModule } from "ngx-img-zoom";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatCheckboxModule } from "@angular/material/checkbox";
-
 import { MainComponent } from "./components/main/main.component";
 
 import { AppRoutingModule } from "./app-routing.module";

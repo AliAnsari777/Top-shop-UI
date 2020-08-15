@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Observable, BehaviorSubject, Subscriber } from "rxjs";
+import { Observable, BehaviorSubject, Subscriber, throwError } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { MatSnackBar } from "@angular/material";
-import { map } from "rxjs/operators";
+import { map, catchError } from "rxjs/operators";
 import { Category } from "../../../modals/Category";
 import { Product } from "../../../modals/product.model";
 
@@ -141,10 +141,47 @@ export class ProductService {
       )
     );
   }
+
   addProduct(newProduct: Product) {
     return this.httpClient.post<Product>(
       "http://localhost:8083/product/upload",
       Product
     );
+  }
+  createProduct(product, image) {
+    // const options = { responseType: 'text' as 'json', headers };
+    let body = new FormData();
+    // for (let image of images) {
+    //   body.append('images', image);
+    // }
+
+    body.append("image", image);
+    body.append(
+      "product",
+      new Blob([JSON.stringify(product)], {
+        type: "application/json",
+      })
+    );
+
+    return this.httpClient
+      .post("http://localhost:8083/product/upload", body)
+      .pipe(catchError(this.errorHandl));
+  }
+  errorHandl(error) {
+    let errorMessage = "";
+    if (error.error instanceof ErrorEvent) {
+      // Get client-side error
+      errorMessage = error.error.message;
+    } else if (error.error instanceof ProgressEvent) {
+      // Get client-side error
+      errorMessage = error.message;
+    } else {
+      // Get server-side error
+      errorMessage = error.error;
+      // `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.log(">>> erroe message: ", errorMessage);
+    console.log(">>> erroe : ", error);
+    return throwError(errorMessage);
   }
 }

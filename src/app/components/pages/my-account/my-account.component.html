@@ -375,7 +375,7 @@
                     required
                   />
                   <mat-error *ngIf="cardNumber.invalid"
-                    >Please enter a valid message</mat-error
+                    >Please enter a valid Card Number</mat-error
                   >
                 </mat-form-field>
               </div>
@@ -409,24 +409,7 @@
                 class="pl-5 mt-20"
                 ngClass.sm="mt-10"
                 ngClass.xs="mt-10"
-              >
-                <mat-form-field class="w-100">
-                  <input
-                    matInput
-                    placeholder="card Type (required)"
-                    #cardType="ngModel"
-                    ngModel
-                    name="cardType"
-                    disabled
-                    required
-                  />
-                  <!-- [value]="cardNumber.startsWith('4') ? 'VISA' : 'MASTER'" -->
-
-                  <mat-error *ngIf="cardType.invalid"
-                    >Please enter a valid message</mat-error
-                  >
-                </mat-form-field>
-              </div>
+              ></div>
 
               <!-- payment Information-->
 

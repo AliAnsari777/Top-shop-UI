@@ -1,0 +1,259 @@
+<div class="my-account sec-padding">
+  <div class="container">
+    <mat-card
+      fxLayout="row"
+      fxLayout.lt-sm="column"
+      fxLayoutAlign="start start"
+      class="p-0"
+      *ngIf="!isLoggedIn"
+    >
+      <div
+        class="my-account-wrap p-0"
+        fxLayout="row"
+        fxLayout.lt-sm="column"
+        fxLayoutAlign="start start"
+      >
+        <div
+          class="login-wrapper pr-50"
+          fxFlex="100"
+          fxFlex.gt-md="50"
+          fxFlex.md="50"
+        >
+          <div class="title">
+            <h3>Add New Product</h3>
+          </div>
+          <form
+            fxLayout="row wrap"
+            #addProductForm="ngForm"
+            (ngSubmit)="addProduct(addProductForm)"
+          >
+            <div
+              fxFlex="100"
+              fxFlex.gt-sm="100"
+              class="px-1"
+              ngClass.sm="mt-1"
+              ngClass.xs="mt-1"
+            >
+              <mat-form-field class="w-100">
+                <input
+                  matInput
+                  placeholder="Product Name"
+                  #name="ngModel"
+                  ngModel
+                  name="name"
+                  required
+                />
+                <mat-error *ngIf="name.invalid"
+                  >Please enter a valid product name</mat-error
+                >
+              </mat-form-field>
+            </div>
+
+            <div
+              fxFlex="100"
+              fxFlex.gt-sm="100"
+              class="px-1"
+              ngClass.sm="mt-1"
+              ngClass.xs="mt-1"
+            >
+              <mat-form-field class="w-100">
+                <input
+                  matInput
+                  placeholder="Category"
+                  #category="ngModel"
+                  ngModel
+                  name="category"
+                  required
+                />
+                <mat-error *ngIf="category.invalid"
+                  >Please enter a valid message</mat-error
+                >
+              </mat-form-field>
+            </div>
+
+            <div
+              fxFlex="100"
+              fxFlex.gt-sm="100"
+              class="px-1"
+              ngClass.sm="mt-1"
+              ngClass.xs="mt-1"
+            >
+              <mat-form-field class="w-100">
+                <input
+                  matInput
+                  placeholder="Detail"
+                  #detail="ngModel"
+                  ngModel
+                  name="detail"
+                  required
+                />
+                <mat-error *ngIf="detail.invalid"
+                  >Please enter a valid message</mat-error
+                >
+              </mat-form-field>
+            </div>
+
+            <div
+              fxFlex="100"
+              fxFlex.gt-sm="100"
+              class="px-1"
+              ngClass.sm="mt-1"
+              ngClass.xs="mt-1"
+            >
+              <mat-form-field class="w-100">
+                <input
+                  matInput
+                  placeholder="Price"
+                  #price="ngModel"
+                  ngModel
+                  name="price"
+                  required
+                />
+                <mat-error *ngIf="price.invalid"
+                  >Please enter a valid message</mat-error
+                >
+              </mat-form-field>
+            </div>
+
+            <div
+              fxFlex="100"
+              fxFlex.gt-sm="100"
+              class="px-1"
+              ngClass.sm="mt-1"
+              ngClass.xs="mt-1"
+            >
+              <mat-form-field class="w-100">
+                <input
+                  matInput
+                  placeholder="Quantity"
+                  #quantity="ngModel"
+                  ngModel
+                  name="quantity"
+                  required
+                />
+                <mat-error *ngIf="quantity.invalid"
+                  >Please enter a valid message</mat-error
+                >
+              </mat-form-field>
+            </div>
+
+            <div
+              fxFlex="100"
+              fxFlex.gt-sm="100"
+              class="px-1"
+              ngClass.sm="mt-1"
+              ngClass.xs="mt-1"
+            >
+              <mat-form-field class="w-100">
+                <input
+                  matInput
+                  placeholder="Discount"
+                  #discount="ngModel"
+                  ngModel
+                  name="discount"
+                  required
+                />
+                <mat-error *ngIf="discount.invalid"
+                  >Please enter a valid message</mat-error
+                >
+              </mat-form-field>
+            </div>
+
+            <div
+              fxFlex="100"
+              fxFlex.gt-sm="100"
+              class="px-1"
+              ngClass.sm="mt-1"
+              ngClass.xs="mt-1"
+            >
+              <mat-form-field class="w-100">
+                <input
+                  matInput
+                  placeholder="Status"
+                  #status="ngModel"
+                  ngModel
+                  name="status"
+                  required
+                />
+                <mat-error *ngIf="status.invalid"
+                  >Please enter a valid message</mat-error
+                >
+              </mat-form-field>
+            </div>
+
+            <!-- <div
+              fxFlex="100"
+              fxFlex.gt-sm="100"
+              class="px-1"
+              ngClass.sm="mt-1"
+              ngClass.xs="mt-1"
+              style="margin-bottom: 10px;"
+            >
+              <button
+                type="button"
+                mat-raised-button
+                (click)="fileInput.click()"
+              >
+                Choose File
+              </button>
+              <input
+                hidden
+                (change)="uploadFile($event)"
+                #file
+                type="file"
+                id="file"
+              />
+            </div> -->
+
+            <div
+              *ngIf="imageView"
+              class="card shadow-lg p-3 mb-5 bg-white rounded w-50 mx-auto"
+            >
+              <img class="img-responsive card-img" [src]="imageView" />
+            </div>
+            <div class="custom-file mb-3">
+              <input
+                type="file"
+                class="custom-file-input"
+                (change)="uploadFile($event)"
+                id="customFile"
+                name="filename"
+              />
+              <label class="custom-file-label" for="customFile"
+                >Choose image</label
+              >
+            </div>
+
+            <br />
+            <div
+              class="button-wrap"
+              fxFlex="100"
+              fxFlex.gt-sm="100"
+              class="px-1"
+              ngClass.sm="mt-1"
+              ngClass.xs="mt-1"
+            >
+              <button
+                class="btn-project"
+                mat-raised-button
+                color="accent"
+                type="submit"
+              >
+                Save Product
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card
+      fxLayout="row"
+      fxLayout.lt-sm="column"
+      fxLayoutAlign="start start"
+      class="p-0"
+      *ngIf="isLoggedIn"
+    >
+    </mat-card>
+  </div>
+</div>

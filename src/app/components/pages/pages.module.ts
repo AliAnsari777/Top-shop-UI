@@ -13,6 +13,8 @@ import { MyAccountComponent } from "./my-account/my-account.component";
 import { ErrorPageComponent } from "./error-page/error-page.component";
 import { ProceedComponent } from "./checkout/proceed/proceed.component";
 import { VendorComponent } from "./vendor/vendor.component";
+import { AddProductComponent } from "./vendor/add-product/addProduct.component";
+
 // import { ConfirmationPageComponent } from './checkout/confirmation-page/confirmation-page.component';
 
 @NgModule({
@@ -36,6 +38,7 @@ import { VendorComponent } from "./vendor/vendor.component";
     // ConfirmationPageComponent,
     CheckoutWithComponent,
     VendorComponent,
+    AddProductComponent,
   ],
 })
 export class PagesModule {}
