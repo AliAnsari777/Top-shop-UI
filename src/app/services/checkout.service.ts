@@ -38,7 +38,7 @@ export class CheckoutService {
               private cartservice: CartService, private router : Router) { }
 
   public placeOrder(paymentInformation : PaymentInformation , billingInformation : BillingInformation) {
-    let order = this.prepare(paymentInformation, billingInformation);
+    this.prepare(paymentInformation, billingInformation);
 
     setTimeout(() => {
       const expDate = paymentInformation.expDate.split("/");
@@ -72,9 +72,7 @@ export class CheckoutService {
         }
   
         this.proceed.model = false;
-        alert("Unable to make purchase!")
-        //localStorage.setItem('orderID' , response.id )
-  
+        alert("Unable to make purchase!")  
         this.router.navigate(['confirmation-page'])
   
       }, (err) => {
@@ -92,14 +90,8 @@ export class CheckoutService {
     let payment = this.preparePaymentInformation(paymentInformation);
 
     this.cartservice.getNewTotalAmount().subscribe((response) => this.amount = response);
-    this.user = this.getUser(payment , billingInformation);
-
-    console.log(this.user)
-
+    if(!this.user) this.user = this.getUser(payment , billingInformation);
     let orderDetails : OrderDetail[] = this.getOrderDetails();
-
-    console.log("USER ACCOUNT" , Cookie.get('user_id'))
-
     let order : Order
 
     setTimeout(() => {
@@ -107,7 +99,7 @@ export class CheckoutService {
         amount: this.amount,
         createdDate: new Date().getMonth() + "/" + new Date().getDay() + "/" + new Date().getFullYear() ,
         status: "Payed",
-        userId: localStorage.getItem('userAccount'),
+        userId: Cookie.get("user_id") ? "R-" + Cookie.get("user_id")  : "G-" + localStorage.getItem('user_id'),
         orderDetails: orderDetails
       }
       this.order = order
@@ -144,14 +136,12 @@ export class CheckoutService {
   }
 
   private getUser(paymentInformation: PaymentInformation , billingInformation: BillingInformation) : UserDTO {
-    let id = Cookie.get("user_id")
-    console.log(id)
+    let id = Cookie.get("user_id");
     if(id){
       let activeUser = new UserDTO();
       activeUser.id = id;
       return activeUser;
     }else{
-      console.log("tonga ato")
       let userData: UserDTO = {
         role: "USER",
         firstName: billingInformation.firstName,
@@ -174,7 +164,7 @@ export class CheckoutService {
         this.user = response
         user = response
         this.id = response.id
-        Cookie.set('user_id' , response.id)
+        localStorage.setItem('user_id' , response.id)
       }, (err) => console.log(err));
 
       return user;

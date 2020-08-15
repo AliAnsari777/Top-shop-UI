@@ -41,35 +41,13 @@ export class CartService {
 
   // Get Products
   public getItems(): Observable<CartItem[]> {
-    let id = Cookie.get("user_id");
+    let id = localStorage.getItem("user_id");
 
-    // if (id != null) {
     const itemsStream = new Observable((observer) => {
       observer.next(products);
       observer.complete();
     });
     return <Observable<CartItem[]>>itemsStream;
-    // } else {
-    //   let items: CartItem[] = [];
-    //   this.httpClient
-    //     .get<Item_detail[]>(
-    //       "http://localhost:8087/itemdetail/shoppingcart/" +
-    //         this.cartId
-    //     )
-    //     .subscribe((data) => {
-    //       for (let i of data) {
-    //         items.push({
-    //           product: {
-    //             name: i.productName,
-    //             price: i.unitPrice,
-    //             id: i.productId,
-    //           },
-    //           quantity: i.quantity,
-    //         });
-    //       }
-    //     });
-
-    // }
   }
 
   public getCheckoutItems(): CartItem[] {
