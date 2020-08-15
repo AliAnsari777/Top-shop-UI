@@ -119,7 +119,7 @@ export class CartService {
   public calculateStockCounts(product: CartItem, quantity): CartItem | Boolean {
     let message, status;
     let qty = product.quantity + quantity;
-    let stock = product.product.stock;
+    let stock = product.product.quantity;
     if (stock < qty) {
       // this.toastrService.error('You can not add more items than available. In stock '+ stock +' items.');
       this.snackBar.open(

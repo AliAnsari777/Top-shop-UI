@@ -1,7 +1,7 @@
 // Product Tag
-import {Category} from "./Category";
+import { Category } from "./Category";
 
-export type ProductTags = 'nike' | 'puma' | 'lifestyle' | 'caprese';
+export type ProductTags = "nike" | "puma" | "lifestyle" | "caprese";
 
 // Product Colors
 export type ProductColor =
@@ -25,11 +25,11 @@ export class Product {
   picture_url?: string;
   shortDetails?: string;
   description?: string;
-  stock?: number;
+  quantity?: number;
   newPro?: boolean;
   brand?: string;
   sale?: boolean;
-  category?:Category;
+  category?: Category;
   tags?: ProductTags[];
   colors?: ProductColor[];
 
@@ -42,11 +42,11 @@ export class Product {
     pictures?: string,
     shortDetails?: string,
     description?: string,
-    stock?: number,
+    quantity?: number,
     newPro?: boolean,
     brand?: string,
     sale?: boolean,
-    category?: Category,
+    // category?: Category,
     tags?: ProductTags[],
     colors?: ProductColor[]
   ) {
@@ -58,11 +58,11 @@ export class Product {
     this.picture_url = pictures;
     this.shortDetails = shortDetails;
     this.description = description;
-    this.stock = stock;
+    this.quantity = quantity;
     this.newPro = newPro;
     this.brand = brand;
     this.sale = sale;
-    this.category = new Category(category.id);
+    // this.category = new Category(category.id);
     this.tags = tags;
     this.colors = colors;
   }
