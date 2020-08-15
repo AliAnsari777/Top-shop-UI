@@ -1,0 +1,30 @@
+
+<form style="width: 70%; min-width: 400px; margin: auto;" #cardInfoForm="ngForm" fxLayout="row wrap" >
+<div fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="mt-20 pr-5" ngClass.sm="mt-10" ngClass.xs="mt-10">
+    <mat-form-field class="w-100">
+    <input matInput placeholder="XXXX-XXXX-XXXX-XXXX (required)" (keypress)="checkCardNumber($event)" type="text" maxlength="19"
+        pattern="[4-5][0-9]{15}" #cardNumber="ngModel" [(ngModel)]="paymentInformation.cardNumber" name="cardNumber" required>
+    <mat-error *ngIf="cardNumber.invalid">Please enter a valid card number</mat-error>
+    </mat-form-field>
+</div>
+<div fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="mt-20 pr-5" ngClass.sm="mt-10" ngClass.xs="mt-10">
+    <mat-form-field class="w-100">
+    <input matInput placeholder="Name on card (required)" #name="ngModel" [(ngModel)]="paymentInformation.nameOnCard" name="name" required>
+    <mat-error *ngIf="name.invalid">Please enter a valid name</mat-error>
+    </mat-form-field>
+</div>
+
+<div fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="mt-20 pr-5" ngClass.sm="mt-10" ngClass.xs="mt-10">
+    <mat-form-field class="w-100">
+    <input type="text" matInput placeholder="MM/yyyy (required)" (keypress)="checkExpDate($event)" type="text" pattern="[0-1][0-2]\/[0-9]{4}"
+        #expDate="ngModel" [(ngModel)]="paymentInformation.expDate" name="expDate" maxlength="7" required>
+    <mat-error *ngIf="expDate.invalid">Please enter a valid expiration date</mat-error>
+    </mat-form-field>
+</div>
+<div fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="mt-20 pr-5" ngClass.sm="mt-10" ngClass.xs="mt-10">
+    <mat-form-field class="w-100">
+    <input matInput placeholder="XXX (required)" pattern="[0-9]{3}" maxlength="3" (keypress)="checkSecDigit($event)" #secDigit="ngModel" [(ngModel)]="paymentInformation.secDigit" name="secDigit" required>
+    <mat-error *ngIf="secDigit.invalid">Please enter a valid security digit</mat-error>
+    </mat-form-field>
+</div>
+</form>

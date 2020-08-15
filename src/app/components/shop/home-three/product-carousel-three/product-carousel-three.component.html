@@ -1,0 +1,182 @@
+<div class="product-item swiper-container" [swiper]="config">
+  <div class="swiper-wrapper h-100">
+    <div *ngFor="let product of product" class="swiper-slide">
+      <mat-card fxLayout="column">
+        <div class="product-img">
+          <a class="product-link" [routerLink]="['/home/product', product.id]">
+            <img [src]="product.pictures[0].big" alt="" />
+          </a>
+        </div>
+
+        <!-- 
+          
+    {
+        "id": 1,
+        "name": "Electronics"
+    },
+    {
+        "id": 2,
+        "name": "Clothes"
+    },
+    {
+        "id": 3,
+        "name": "Laptops"
+    },
+    {
+        "id": 4,
+        "name": "Watches"
+    },
+    {
+        "id": 5,
+        "name": "Headphones"
+    },
+    {
+        "id": 6,
+        "name": "Smart Phones"
+    },
+    {
+        "id": 7,
+        "name": "Cameras"
+    },
+    {
+        "id": 8,
+        "name": "TV & Audio"
+    }
+          
+          
+          
+          
+          {
+          "id": 2,
+          "name": "Smart phone",
+          "status": "notAprroved",
+          "code": null,
+          "type": null,
+          "price": 200.0,
+          "quantity": 0,
+          "picture_url": "41DEjYVxzJL._AC_SY200_.jpg",
+          "category": {
+              "id": 2,
+              "name": "Clothes"
+          },
+          "productDetail": null,
+          "salesPrice": 0.0,
+          "discount": 50.0,
+          "shortDetails": "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem,",
+          "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+          "newPro": true,
+          "sale": true,
+          "brand": "Brand-1",
+          "pictures": [],
+          "tags": []
+      },
+      {
+          "id": 4,
+          "name": "Smart phone",
+          "status": "notAprroved",
+          "code": null,
+          "type": null,
+          "price": 200.0,
+          "quantity": 0,
+          "picture_url": "71iGr1eKi2L._AC_UY218_.jpg",
+          "category": {
+              "id": 2,
+              "name": "Clothes"
+          },
+          "productDetail": null,
+          "salesPrice": 0.0,
+          "discount": 50.0,
+          "shortDetails": "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem,",
+          "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+          "newPro": true,
+          "sale": true,
+          "brand": "Brand-1",
+          "pictures": [],
+          "tags": []
+      },
+      {
+          "id": 8,
+          "name": "Smart phone",
+          "status": "notAprroved",
+          "code": null,
+          "type": null,
+          "price": 200.0,
+          "quantity": 0,
+          "picture_url": "814mVlN1CZL._AC_UY218_.jpg",
+          "category": {
+              "id": 1,
+              "name": "Electronics"
+          },
+          "productDetail": null,
+          "salesPrice": 0.0,
+          "discount": 50.0,
+          "shortDetails": "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem,",
+          "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+          "newPro": true,
+          "sale": true,
+          "brand": "Brand-1",
+          "pictures": [],
+          "tags": []
+      }, -->
+
+        <div class="product-info-wrapper">
+          <span class="category">{{ product.category.name }}</span>
+          <div class="title-wrap">
+            <h4>{{ product.name }}</h4>
+          </div>
+          <div class="stars">
+            <mat-icon
+              class="mat-icon-xs mat-icon material-icons ng-star-inserted"
+              >star_rate</mat-icon
+            >
+            <mat-icon
+              class="mat-icon-xs mat-icon material-icons ng-star-inserted"
+              >star_rate</mat-icon
+            >
+            <mat-icon
+              class="mat-icon-xs mat-icon material-icons ng-star-inserted"
+              >star_rate</mat-icon
+            >
+            <mat-icon
+              class="mat-icon-xs mat-icon material-icons ng-star-inserted"
+              >star_rate</mat-icon
+            >
+            <mat-icon
+              class="mat-icon-xs mat-icon material-icons ng-star-inserted"
+              >star_rate</mat-icon
+            >
+          </div>
+          <div
+            class="price-wrap"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+          >
+            <p>${{ product.price | number: "1.2-2" }}</p>
+            <a (click)="addToCart(product)"
+              ><mat-icon class="mat-icon-lg mat-icon material-icons"
+                >shopping_cart</mat-icon
+              ></a
+            >
+          </div>
+          <div class="icons" fxLayout="column">
+            <a (click)="addToWishlist(product)"
+              ><mat-icon class="mat-icon-lg mat-icon material-icons mr-10"
+                >favorite_border</mat-icon
+              ></a
+            >
+            <a (click)="openProductDialog(product)"
+              ><mat-icon>remove_red_eye</mat-icon></a
+            >
+            <a (click)="addToCompare(product)"><mat-icon>cached</mat-icon></a>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  <button mat-mini-fab class="swiper-button-prev swipe-arrow">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+  <button mat-mini-fab class="swiper-button-next swipe-arrow">
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
+</div>

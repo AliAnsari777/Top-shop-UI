@@ -1,0 +1,161 @@
+<mat-toolbar-row
+  fxHide
+  fxShow.gt-sm
+  class="container"
+  fxLayout="row"
+  fxLayout.xs="row"
+  fxLayoutAlign="space-between center"
+>
+  <div class="main-menu" fxLayout="row" fxHide fxShow.gt-sm>
+    <!--[matMenuTriggerFor]="animals"-->
+    <a
+      mat-button
+      class="mat-button"
+      [routerLink]="['/home']"
+      routerLinkActive="router-link-active"
+      >Home
+      <!--<mat-icon class="caret">arrow_drop_down</mat-icon> -->
+    </a>
+    <!-- <mat-menu #animals="matMenu" [overlapTrigger]="false" class="app-dropdown">
+      <a
+        mat-menu-item
+        [routerLink]="['/home/one']"
+        routerLinkActive="router-link-active"
+        >Home-1</a
+      >
+      <a
+        mat-menu-item
+        [routerLink]="['/home/two']"
+        routerLinkActive="router-link-active"
+        >Home-2</a
+      >
+      <a
+        mat-menu-item
+        [routerLink]="['/home/three']"
+        routerLinkActive="router-link-active"
+        >Home-3</a
+      >
+      <a
+        mat-menu-item
+        [routerLink]="['/home/four']"
+        routerLinkActive="router-link-active"
+        >Home-4</a
+      >
+      <a
+        mat-menu-item
+        [routerLink]="['/home/five']"
+        routerLinkActive="router-link-active"
+        >Home-5</a
+      >
+    </mat-menu> -->
+    <a
+      [routerLink]="['/home/products/all']"
+      routerLinkActive="router-link-active"
+      mat-button
+      class="mat-button"
+      >Products</a
+    >
+    <a
+      mat-button
+      [matMenuTriggerFor]="shop"
+      class="mat-button"
+      (click)="openMegaMenu()"
+      >Shop<mat-icon class="caret">arrow_drop_down</mat-icon></a
+    >
+    <mat-menu
+      #shop="matMenu"
+      [overlapTrigger]="false"
+      class="app-dropdown mega-menu"
+    >
+      <div fxLayout="row wrap">
+        <div fxFlex="25" fxLayout="column" class="p-1">
+          <a mat-menu-item routerLink="/"><b>COMPUTERS</b></a>
+          <mat-divider></mat-divider>
+          <a mat-menu-item routerLink="/">Laptops</a>
+          <a mat-menu-item routerLink="/">Cables</a>
+          <a mat-menu-item routerLink="/">Monitors</a>
+          <a mat-menu-item routerLink="/">Tablets</a>
+          <a mat-menu-item routerLink="/">Headsets</a>
+        </div>
+        <div fxFlex="25" class="p-1">
+          <a mat-menu-item routerLink="/"><b>TV & AUDIO</b></a>
+          <mat-divider></mat-divider>
+          <button mat-menu-item>TV</button>
+          <button mat-menu-item>Video</button>
+          <button mat-menu-item>Audio</button>
+          <button mat-menu-item>DVD</button>
+        </div>
+        <div fxFlex="25" class="p-1">
+          <a mat-menu-item routerLink="/"><b>PHONES</b></a>
+          <mat-divider></mat-divider>
+          <button mat-menu-item>Mobile phones</button>
+          <button mat-menu-item>Power Bank</button>
+          <button mat-menu-item>Memory Cards</button>
+          <button mat-menu-item>Accesories</button>
+        </div>
+        <div fxFlex="25" class="p-1">
+          <a mat-menu-item routerLink="/"><b>ELECTRONICS</b></a>
+          <mat-divider></mat-divider>
+          <button mat-menu-item>Washing Machines</button>
+          <button mat-menu-item>Water heater</button>
+          <button mat-menu-item>Cookers</button>
+          <button mat-menu-item>Cold stores</button>
+        </div>
+      </div>
+    </mat-menu>
+
+    <a
+      mat-button
+      class="mat-button"
+      [routerLink]="['/pages/vendor']"
+      routerLinkActive="router-link-active"
+      >sell product</a
+    >
+
+    <a mat-button mat-button [matMenuTriggerFor]="blog" class="mat-button"
+      >Reports<mat-icon class="caret">arrow_drop_down</mat-icon></a
+    >
+    <mat-menu #blog="matMenu" [overlapTrigger]="false" class="app-dropdown">
+      <a
+        mat-menu-item
+        href="http://localhost:8095/products/report"
+        target="_blank"
+        >Product Report</a
+      >
+      <a
+        mat-menu-item
+        href="http://localhost:8095/orderDetail/all"
+        target="_blank"
+        >Sales Report</a
+      >
+    </mat-menu>
+
+    <a
+      mat-button
+      class="mat-button"
+      [routerLink]="['/pages/vendor']"
+      *ngIf="userRole == 'VENDOR'"
+      routerLinkActive="router-link-active"
+      >Add Product</a
+    >
+    <a
+      mat-button
+      class="mat-button"
+      [routerLink]="['/pages/vendor']"
+      *ngIf="userRole == 'VENDOR'"
+      routerLinkActive="router-link-active"
+      >Manage Procuct</a
+    >
+    <a
+      mat-button
+      class="mat-button"
+      [routerLink]="['/pages/vendor']"
+      *ngIf="userRole == 'VENDOR'"
+      routerLinkActive="router-link-active"
+      >Generated Report</a
+    >
+
+    <!-- > Sell your product</a> -->
+    <!-- <a mat-button class="mat-button" [routerLink]="['']">Sell your product</a> -->
+  </div>
+</mat-toolbar-row>

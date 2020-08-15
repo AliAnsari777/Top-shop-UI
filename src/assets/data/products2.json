@@ -1,0 +1,38 @@
+[
+  {
+    "id": 2,
+    "name": "Solo Headset",
+    "price": 235,
+    "salePrice": 200,
+    "discount": 50,
+    "pictures": [
+      {
+        "small": "assets/images/carousel/banner1.jpg",
+        "big": "assets/images/carousel/banner1.jpg"
+      },
+      {
+        "small": "assets/images/carousel/banner1.jpg",
+        "big": "assets/images/carousel/banner1.jpg"
+      },
+      {
+        "small": "assets/images/carousel/banner1.jpg",
+        "big": "assets/images/carousel/banner1.jpg"
+      },
+      {
+        "small": "assets/images/carousel/banner1.jpg",
+        "big": "assets/images/carousel/banner1.jpg"
+      },
+      {
+        "small": "assets/images/carousel/banner1.jpg",
+        "big": "assets/images/carousel/banner1.jpg"
+      }
+    ],
+    "shortDetails": "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem,",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "stock": 5,
+    "brand": "Brand-2",
+    "newPro": true,
+    "sale": true,
+    "category": "Headphones"
+  }
+]

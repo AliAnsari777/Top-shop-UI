@@ -1,0 +1,57 @@
+<form #billingInfoForm="ngForm" name="billingInfoForm" fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="mt-20 pr-5" ngClass.sm="mt-10" ngClass.xs="mt-10">
+        <mat-form-field class="w-100">
+            <input matInput placeholder="First name (required)" #firstName="ngModel" [(ngModel)]="billingInformation.firstName" name="firstName" required>
+            <mat-error *ngIf="firstName.invalid">Please enter a valid name</mat-error>
+        </mat-form-field>
+    </div>
+    <div fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="pl-5 mt-20" ngClass.sm="mt-10" ngClass.xs="mt-10">
+        <mat-form-field class="w-100">
+            <input matInput placeholder="Last name (required)" #lastName="ngModel" [(ngModel)]="billingInformation.lastName" name="lastName" required>
+            <mat-error *ngIf="email.invalid">Please enter a valid name</mat-error>
+        </mat-form-field>
+    </div>
+    <div fxFlex="100" fxFlex.gt-sm="100" class="mt-20" ngClass.sm="mt-10" ngClass.xs="mt-10">
+        <mat-form-field class="w-100">
+            <input matInput placeholder="Address" #address="ngModel" [(ngModel)]="billingInformation.address" name="address">
+            <mat-error *ngIf="address.invalid">Please enter a valid Address </mat-error>
+        </mat-form-field>
+    </div>
+    <div fxFlex="100" fxFlex.gt-sm="100" class="mt-20" ngClass.sm="mt-10" ngClass.xs="mt-10">
+        <mat-form-field class="w-100">
+            <input matInput placeholder="Town/city" #town="ngModel" [(ngModel)]="billingInformation.town" name="town">
+            <mat-error *ngIf="town.invalid">Please enter a valid town</mat-error>
+        </mat-form-field>
+    </div>
+    <div fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="mt-20 pr-5" ngClass.sm="mt-10" ngClass.xs="mt-10">
+        <mat-form-field class="w-100">
+            <input matInput placeholder="State (required)" #state="ngModel" [(ngModel)]="billingInformation.state" name="state" required>
+            <mat-error *ngIf="state.invalid">Please enter a valid state</mat-error>
+        </mat-form-field>
+    </div>
+    <div fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="mt-20 pr-5" ngClass.sm="mt-10" ngClass.xs="mt-10">
+        <mat-form-field class="w-100">
+            <input matInput placeholder="Country (required)" #country="ngModel" [(ngModel)]="billingInformation.country" name="country" required>
+            <mat-error *ngIf="country.invalid">Please enter a valid country</mat-error>
+        </mat-form-field>
+    </div>
+    <div fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="pl-5 mt-20" ngClass.sm="mt-10" ngClass.xs="mt-10">
+        <mat-form-field class="w-100">
+            <input matInput placeholder="Postcode / zip (required)" #postcode="ngModel" [(ngModel)]="billingInformation.postcode" name="postcode"
+                required>
+            <mat-error *ngIf="postcode.invalid">Please enter a valid Zip code</mat-error>
+        </mat-form-field>
+    </div>
+    <div fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="mt-20 pr-5" ngClass.sm="mt-10" ngClass.xs="mt-10">
+        <mat-form-field class="w-100">
+            <input email type="email" matInput placeholder="Email Address (required)" #email="ngModel" [(ngModel)]="billingInformation.email" name="email" required>
+            <mat-error *ngIf="email.invalid">Please enter a valid email</mat-error>
+        </mat-form-field>
+    </div>
+    <div fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50" class="pl-5 mt-20" ngClass.sm="mt-10" ngClass.xs="mt-10">
+        <mat-form-field class="w-100">
+            <input type="tel" matInput placeholder="Phone (required)" #phone="ngModel" [(ngModel)]="billingInformation.phone" name="phone" required>
+            <mat-error *ngIf="phone.invalid">Please enter a valid phone number</mat-error>
+        </mat-form-field>
+    </div>
+</form>

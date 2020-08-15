@@ -1,0 +1,20 @@
+<h1>Add Product Admin</h1>
+
+<form>
+  <label for="name">Name</label>
+  <input type="text" class="form-control" id="name" placeholder="Product Name" [(ngModel)]="product.name" name="name">
+
+  <label for="author">Author</label>
+  <input type="text" class="form-control" id="author" placeholder="author" name="author" [(ngModel)]="product.price">
+
+  <label for="author">Price</label>
+  <input type="text" class="form-control" id="price" placeholder="price" name="price" [(ngModel)]="product.category">
+
+
+  <br>
+  <input type="file" (change)="onFileChanged($event)">
+  <img [src]="imgURL" height="200" width="200" *ngIf="imgURL">
+
+  <br>
+  <button type="button" class="btn btn-success" (click)="saveBook()">Save Product</button>
+</form>

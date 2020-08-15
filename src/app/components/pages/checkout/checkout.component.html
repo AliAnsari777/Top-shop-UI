@@ -1,0 +1,113 @@
+<div class="container">
+  
+  <!-- !MODAL CONFIRMATION -->
+  <app-proceed *ngIf="modal" [modal]="modal" (placeOrder)="checkout()" (closeModal)="closeModal($event)" > </app-proceed>
+
+  <div class="checkout sec-padding">
+    <div fxLayout="row wrap" class="">
+      <div class="billing-details  pr-15" fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50">
+
+        <mat-card>
+          <!--  Billing info -->
+          <div class="header-title">
+            <h3>Billing Details</h3>
+          </div>
+          <div style="width: 80%; margin:auto; margin-top: 30px; margin-bottom: 30px;"
+            *ngIf="billingInformations.length > 0">
+            <h4 style="text-align: center;">You may choose among your saved addresses: </h4>
+            <mat-radio-group>
+
+              <mat-radio-button (change)="billingChange($event)" style="margin: 10px;"
+                *ngFor="let address of billingInformations" [value]="address">
+                <mat-card *ngIf="address.firstName || address.lastName" style="min-width: 200px;">
+                  <h4>{{address.firstName}} {{address.lastName}}</h4>
+                  <p> {{address.email}} </p>
+                  <p> {{address.phone}} </p>
+                  <p> {{address.town}} </p>
+                  <p> {{address.state}} {{address.postCode}} {{address.country}} </p>
+                </mat-card>
+                <mat-card *ngIf="!address.firstName && !address.lastName">
+                  <h4>New Billing Information</h4>
+                </mat-card>
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <app-billing-info [billing]="billingChosed"></app-billing-info>
+
+          <!-- Card info -->
+          <h3 style="margin-top: 30px; text-align: center;"> Payment Information </h3>
+
+          <mat-card style="width: 60%; margin:auto; margin-top: 30px; margin-bottom: 30px;"
+            *ngIf="paymentInformations.length > 0">
+            <h4 style="text-align: center;">You may choose among your saved cards: </h4>
+            <mat-radio-group>
+
+              <mat-radio-button (change)="paymentChange($event)" fxLayout="column" style="margin: 10px;"
+                *ngFor="let payment of paymentInformations" [value]="payment">
+                XXXX-XXXX-XXXX-{{payment.cardNumber | slice:15}}
+              </mat-radio-button>
+            </mat-radio-group>
+          </mat-card>
+
+          <app-card-info [payment]="paymentChosed"></app-card-info>
+
+        </mat-card>
+      </div>
+
+      <div class="mainOrder-wrapper pl-15" fxFlex="100" fxFlex.gt-md="50" fxFlex.md="50">
+        <div class="main-order ">
+          <div class="order-box">
+            <div class="title-box">
+              <div>Product <span class="tl-amount"> Total</span></div>
+            </div>
+            <ul class="price-list" *ngIf='buyProducts.length'>
+              <li *ngFor="let item of buyProducts">
+                {{ item.product.name }} × {{ item.quantity }}
+                <span>
+                  {{ item.product.price * item.quantity | currency:productService?.currency:'symbol' }}
+                </span>
+              </li>
+            </ul>
+            <ul class="quantity" *ngIf='buyProducts.length <= 0'>
+              <li class="empty-checkout"> There are no products in cart </li>
+            </ul>
+            <ul class="total-amount">
+              <li>
+                Subtotal
+                <!-- <span class="amount">{{ getTotal() | async | currency:productService?.currency:'symbol'}}</span> -->
+                <span class="amount">{{ getNewTotal() | async | currency:productService?.currency:'symbol'}}</span>
+              </li>
+              <li *ngIf="buyProducts.length > 0">
+                Shipping
+                <div class="shipping">
+                  <div class="shopping-option">
+                    <mat-radio-group>
+                      <mat-radio-button *ngFor="let payment of payments" [value]="payment">{{payment}}
+                      </mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+
+                </div>
+              </li>
+            </ul>
+            <ul class="total">
+              <li>Total 
+                <!-- <span class="count">{{ getTotal() | async | currency:productService?.currency:'symbol'}}</span> -->
+                <span class="count">{{ getNewTotal() | async | currency:productService?.currency:'symbol'}}</span>
+              </li>
+            </ul>
+
+            
+
+            <div class="order">
+              <button class="btn-project" (click)="placeOrder()" mat-raised-button color="accent">
+                PLACE ORDER
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

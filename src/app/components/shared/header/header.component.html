@@ -1,0 +1,88 @@
+<div class="home-header">
+  <div
+    class="container"
+    fxLayout="row"
+    fxLayout.sm="column"
+    fxLayout.xs="column"
+    fxLayoutGap="20px"
+    fxlayoutalign="space-between center"
+  >
+    <div class="logo">
+      <a [routerLink]="['/home']" routerLinkActive="router-link-active"
+        ><img src="assets/images/logo_03.png" style="height: 50px;"
+      /></a>
+    </div>
+    <div fxflexoffset.gt-sm="10" fxFlex class="search-form">
+      <form class="search-form" fxLayout="row">
+        <div class="form-wrap">
+          <input type="text" placeholder="Type to search..." />
+          <button class="btn-search" type="submit">Search</button>
+        </div>
+      </form>
+    </div>
+    <div
+      class="call-bucket-wrap"
+      fxLayout="row"
+      fxLayout.sm="row"
+      fxLayoutAlign="center center"
+    >
+      <div
+        class="main-menu-wrapper-2"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+      >
+        <mat-toolbar class="top-navbar top menu">
+          <app-shopping-widgets
+            [shoppingCartItems]="shoppingCartItems"
+          ></app-shopping-widgets>
+        </mat-toolbar>
+      </div>
+
+      <div
+        class="main-menu-wrapper-2"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+        *ngIf="isLoggedIn"
+      >
+        <mat-toolbar class="top-navbar top menu">
+          <div
+            class="button-wrap"
+            fxFlex="100"
+            fxFlex.gt-sm="100"
+            class="px-1"
+            ngClass.sm="mt-1"
+            ngClass.xs="mt-1"
+          >
+            <button
+              class="btn-project"
+              mat-raised-button
+              color="accent"
+              type="submit"
+              (click)="logout()"
+            >
+              Logout
+            </button>
+          </div>
+        </mat-toolbar>
+      </div>
+      <div class="widget-text" *ngIf="!isLoggedIn">
+        <a
+          fxShow="false"
+          fxShow.gt-xs
+          [routerLink]="['/pages/my-account']"
+          routerLinkActive="router-link-active"
+          ><mat-icon>person</mat-icon>My Account</a
+        >
+      </div>
+
+      <!-- <div class="widget-text" >
+      <div class="widget-text">
+
+        <a fxShow="false" fxShow.gt-xs [routerLink]="['/pages/vendor']" routerLinkActive="router-link-active" >sell  product</a>
+      </div> -->
+    </div>
+  </div>
+</div>
+<div class="menu-container1">
+  <app-menu></app-menu>
+</div>
