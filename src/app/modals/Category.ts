@@ -5,12 +5,9 @@ export class Category {
   name?: string;
 
   constructor(
-    id?: number,
-    name?: string,
-
   ) {
-    this.id = id;
-    this.name = name;
+    this.id = 1;
+    this.name = 'Electronics';
   }
 
 }
