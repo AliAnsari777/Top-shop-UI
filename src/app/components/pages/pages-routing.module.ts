@@ -7,13 +7,18 @@ import { MyAccountComponent } from "./my-account/my-account.component";
 import { ErrorPageComponent } from "./error-page/error-page.component";
 import { VendorComponent } from "./vendor/vendor.component";
 import { AddProductComponent } from "./vendor/add-product/addProduct.component";
+import { ConfirmationPageComponent } from "./checkout/confirmation-page/confirmation-page.component";
 
 const routes: Routes = [
   {
     path: "",
     children: [
       { path: "cart", component: CartComponent },
-      { path: "checkout", component: CheckoutComponent },
+      { path: "checkout", 
+        children : [
+          {path : "" , component: CheckoutComponent },
+          {path : "confirmation-page" , component: ConfirmationPageComponent}
+        ]},
       { path: "my-account", component: MyAccountComponent },
       { path: "vendor", component: VendorComponent },
       { path: "error", component: ErrorPageComponent },

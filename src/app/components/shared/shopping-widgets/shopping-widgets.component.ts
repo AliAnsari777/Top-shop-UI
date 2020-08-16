@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Product } from 'src/app/modals/product.model';
 import { CartService } from '../services/cart.service';
 import { Observable } from 'rxjs';
-import { CartItem } from 'src/app/modals/cart-item';
 import { ProductService } from '../services/product.service';
+import { Product } from '../../../modals/product.model';
+import { CartItem } from '../../../modals/cart-item';
 
 @Component({
   selector: 'app-shopping-widgets',

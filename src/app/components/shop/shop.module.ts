@@ -24,7 +24,6 @@ import { CategoriesComponent } from "./widgets/categories/categories.component";
 import { PopularProductsComponent } from "./widgets/popular-products/popular-products.component";
 import { ProductZoomComponent } from "./products/product-details/product-zoom/product-zoom.component";
 import { AddproductComponent } from "./products/product/AddProduct.component";
-import { ConfirmationPageComponent } from "../pages/checkout/confirmation-page/confirmation-page.component";
 
 //import {CategoryComponent} from "./products/product/category.component";
 
@@ -45,8 +44,7 @@ import { ConfirmationPageComponent } from "../pages/checkout/confirmation-page/c
     BrandsComponent,
     CategoriesComponent,
     PopularProductsComponent,
-    ProductZoomComponent,
-    ConfirmationPageComponent,
+    ProductZoomComponent
   ],
   imports: [
     CommonModule,

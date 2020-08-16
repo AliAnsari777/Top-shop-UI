@@ -1,5 +1,5 @@
-import { Injectable, OnInit, ViewChild } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { PaymentInformation } from '../modals/payment-information';
 import { BillingInformation } from '../modals/billing-information';
 import * as _ from 'lodash';
@@ -9,15 +9,14 @@ import { map } from 'rxjs/operators';
 import { catchError, timeout } from 'rxjs/operators';
 import { ErrorService } from './error.service';
 import { Order } from '../modals/order';
-import { Product } from '../modals/product.model';
 import { CartItem } from '../modals/cart-item';
 import { CartService } from '../components/shared/services/cart.service';
 import { OrderDetail } from '../modals/order-detail';
-import { Router } from '@angular/router';
 import { PaymentInformationDTO } from '../modals/dto/payment-information-dto';
-import { ConfirmationPageComponent } from '../components/pages/checkout/confirmation-page/confirmation-page.component';
 import { ProceedComponent } from '../components/pages/checkout/proceed/proceed.component';
 import { Cookie } from 'ng2-cookies';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable({
   providedIn: 'root'
@@ -34,13 +33,14 @@ export class CheckoutService {
 
   @ViewChild(ProceedComponent) proceed;
 
-  constructor(private http : HttpClient , private error : ErrorService, 
-              private cartservice: CartService, private router : Router) { }
+  constructor(private http : HttpClient , private error : ErrorService, private spinner: NgxSpinnerService,
+              private cartservice: CartService , private snackBar: MatSnackBar) { }
 
   public placeOrder(paymentInformation : PaymentInformation , billingInformation : BillingInformation) {
     this.prepare(paymentInformation, billingInformation);
 
     setTimeout(() => {
+      this.spinner.show();
       const expDate = paymentInformation.expDate.split("/");
       const cardNum = paymentInformation.cardNumber.split("-")
 
@@ -68,21 +68,27 @@ export class CheckoutService {
           }
 
           localStorage.setItem('cartItem' , JSON.stringify(currentCart))
-          this.router.navigate(['/confirmation-page'])
+          localStorage.setItem('checkoutItem' , JSON.stringify([]))
+          window.location.replace(window.location.href + "/confirmation-page");
+        }
+
+        this.spinner.hide();
+        if(response.error.length !== 0){
+          this.snackBar.open("Unable to make a purchase </br> " + response.error , "Dismiss" , {
+            duration: 3000,
+          });
         }
   
-        this.proceed.model = false;
-        alert("Unable to make purchase!")  
-        this.router.navigate(['confirmation-page'])
-  
       }, (err) => {
-        alert("Unable to make purchase! " + JSON.stringify(err))
+        this.spinner.hide()
+        this.snackBar.open("Unable to make a purchase </br>" + JSON.stringify(err), "Dismiss" , {
+          duration: 3000,
+        });
         console.error(err)
       })
   
     } , 4000)
-
-
+    this.spinner.hide();
   }
 
   public prepare(paymentInformation : PaymentInformation , billingInformation : BillingInformation) {

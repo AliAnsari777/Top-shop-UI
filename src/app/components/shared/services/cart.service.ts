@@ -41,12 +41,16 @@ export class CartService {
 
   // Get Products
   public getItems(): Observable<CartItem[]> {
-    let id = localStorage.getItem("user_id");
-
-    const itemsStream = new Observable((observer) => {
-      observer.next(products);
-      observer.complete();
-    });
+    let id = Cookie.get("user_id");
+    let itemsStream : Observable<CartItem[]> ;
+    if(id){
+      itemsStream = this.httpClient.get<CartItem[]>("http://localhost:8087/shoppingcart?userid=" + id)
+    }else{
+      itemsStream = new Observable((observer) => {
+        observer.next(products);
+        observer.complete();
+      });
+    }
     return <Observable<CartItem[]>>itemsStream;
   }
 

@@ -107,11 +107,15 @@ export class CheckoutComponent implements AfterViewInit {
 
   getInformation() {
     let id: string = Cookie.get("user_id");
+    console.log("FETCH USER INFORMATION ..........." , id)
+    
     if (id) {
+      console.log("BEFORE FETCHING USER INFORMATION ...........")
       this.http
         .get<UserAccountDTO>("http://localhost:8086/api/user/getByAccountId/" + id)
         .subscribe(
           (response) => {
+            console.log(response)
             let arr: BillingInformation[] = [];
 
             for (let address of response.addressList) {
@@ -125,6 +129,8 @@ export class CheckoutComponent implements AfterViewInit {
                 phone: "",
               });
             }
+
+            this.billingInformations = [...arr , new BillingInformation()];
 
             this.paymentInformations = [
               ...response.paymentInformation, ...this.paymentInformations

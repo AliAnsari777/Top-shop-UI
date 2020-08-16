@@ -45,6 +45,8 @@ export class UserService {
     this.cartService.getCartId();
   }
   saveToken(data) {
+    localStorage.clear()
+
     var expireDate = new Date().getTime() + 1000 * data.token.expires_in;
     Cookie.set("access_token", data.token, expireDate);
     Cookie.set("id_token", data.token.id_token, expireDate);

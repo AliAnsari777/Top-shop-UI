@@ -20,7 +20,7 @@
               <mat-radio-button (change)="billingChange($event)" style="margin: 10px;"
                 *ngFor="let address of billingInformations" [value]="address">
                 <mat-card style="min-width: 200px;">
-                  <span *ngIf="address.email && address.phone && address.lastName">
+                  <span *ngIf="address.email && address.lastName">
                     <h4>{{address.firstName}} {{address.lastName}}</h4>
                     <p> {{address.email}} </p>
                     <p> {{address.phone}} </p>
@@ -77,7 +77,7 @@
                 <!-- <span class="amount">{{ getTotal() | async | currency:productService?.currency:'symbol'}}</span> -->
                 <span class="amount">{{ getNewTotal() | async | currency:productService?.currency:'symbol'}}</span>
               </li>
-              <li *ngIf="buyProducts.length > 0">
+              <!-- <li *ngIf="buyProducts.length > 0">
                 Shipping
                 <div class="shipping">
                   <div class="shopping-option">
@@ -88,7 +88,7 @@
                   </div>
 
                 </div>
-              </li>
+              </li> -->
             </ul>
             <ul class="total">
               <li>Total 
