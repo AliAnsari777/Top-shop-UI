@@ -33,9 +33,14 @@ export class HeaderComponent implements OnInit {
   indexProduct: number;
   shoppingCartItems: CartItem[] = [];
   public isLoggedIn = false;
+
   keyword:string;
-  
+
   constructor(private cartService: CartService, private _service: UserService, private productService: ProductService,  private formBuilder: FormBuilder) {
+    
+  }
+
+  ngOnInit() {
     this.cartService
       .getItems()
       .subscribe(
