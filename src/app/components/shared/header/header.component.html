@@ -13,13 +13,14 @@
       /></a>
     </div>
     <div fxflexoffset.gt-sm="10" fxFlex class="search-form">
-      <form class="search-form" fxLayout="row">
+      <form #searchForm="ngForm" class="search-form" fxLayout="row" (ngSubmit)="doSearch(searchForm)">
         <div class="form-wrap">
-          <input type="text" placeholder="Type to search..." />
+          <input type="text" [(ngModel)]="keyword"  id="search" name="search" #search ="ngModel"  placeholder="Type to search..." />
           <button class="btn-search" type="submit">Search</button>
         </div>
       </form>
     </div>
+
     <div
       class="call-bucket-wrap"
       fxLayout="row"
@@ -85,4 +86,23 @@
 </div>
 <div class="menu-container1">
   <app-menu></app-menu>
+</div>
+<!--===============================================4567-->
+<div class="row">
+  <div class="col-sm-3" *ngFor="let product of products; let i=index">
+    <div class="card shadow p-3 mb-5 bg-white rounded">
+      <img class="card-img-top img-fluid" [src]="product.pictures[0].big" alt="" />
+      <div class="card-body">
+        <h4 class="card-title">{{product.name}}</h4>
+        <p class="card-text">{{product.description}}</p>
+        <h2 class="price">${{product.price}}</h2>
+      </div>
+      <div class="card-link">
+        <button class="btn btn-warning mt-auto float-right" (click)="addToCart(product)"><i
+          class="fa fa-shopping-cart"></i> </button>
+        <button [routerLink]="['product',product.id]" class="btn btn-info mt-auto float-left"><i
+          class="fa fa-eye"></i> View</button>
+      </div>
+    </div>
+  </div>
 </div>

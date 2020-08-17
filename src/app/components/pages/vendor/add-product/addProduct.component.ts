@@ -49,10 +49,13 @@ export class AddProductComponent implements OnInit {
     console.log("name", FV.category);
     product.category.id = FV.category;
     product.discount = FV.discount;
-    product.newPro = FV.status;
+    product.newPro = FV.newPro;
     product.shortDetails = FV.detail;
 
-    console.log("category id: " + product.category);
+    product.brand=FV.brand;
+
+
+   
 
     this.productService
       .createProduct(product, this.images[0])

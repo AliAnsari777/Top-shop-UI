@@ -175,6 +175,27 @@
                 >
               </mat-form-field>
             </div>
+            <div
+              fxFlex="100"
+              fxFlex.gt-sm="100"
+              class="px-1"
+              ngClass.sm="mt-1"
+              ngClass.xs="mt-1"
+            >
+              <mat-form-field class="w-100">
+                <input
+                  matInput
+                  placeholder="Brand"
+                  #brand="ngModel"
+                  ngModel
+                  name="brand"
+                  required
+                />
+                <mat-error *ngIf="brand.invalid"
+                >Please enter a valid message</mat-error
+                >
+              </mat-form-field>
+            </div>
 
             <!-- <div
               fxFlex="100"
@@ -215,11 +236,12 @@
                 name="filename"
                 required
               />
-              <label class="custom-file-label" for="customFile"
-                >Choose image</label
-              >
+<!--              <label class="custom-file-label" for="customFile">Choose image</label>-->
             </div>
 
+            <br />
+            <br />
+            <br />
             <br />
             <div
               class="button-wrap"
