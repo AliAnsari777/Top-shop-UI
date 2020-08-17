@@ -22,7 +22,7 @@ export class Product {
   price?: number;
   salePrice?: number;
   discount?: number;
-  picture_url?: string;
+  pictureUrl?: string;
   shortDetails?: string;
   description?: string;
   quantity?: number;
@@ -54,7 +54,7 @@ export class Product {
     this.price = price;
     this.salePrice = salePrice;
     this.discount = discount;
-    this.picture_url = pictures;
+    this.pictureUrl = pictures;
     this.shortDetails = shortDetails;
     this.description = description;
     this.quantity = quantity;

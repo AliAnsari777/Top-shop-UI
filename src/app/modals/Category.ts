@@ -7,7 +7,7 @@ export class Category {
   constructor(
   ) {
     this.id = 1;
-    this.name = 'Electronics';
+    this.name = 'Laptops';
   }
 
 }

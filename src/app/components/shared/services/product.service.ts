@@ -34,13 +34,13 @@ export class ProductService {
 
   getproducts() {
     return this.httpClient.get<Product[]>(
-      'http://localhost:8083/product/getAll'
+      'http://localhost:8083/product/approved'
     );
   }
   // ===========================
   private products(): Observable<Product[]> {
     return this.httpClient.get<Product[]>(
-      'http://localhost:8083/product/getAll'
+      'http://localhost:8083/product/approved'
     );
   }
 
@@ -187,5 +187,11 @@ export class ProductService {
   getCategories() {
     return this.httpClient.get('http://localhost:8083/category/getAll')
       .pipe(catchError(this.errorHandl));
+  }
+  searchProducts(keyword) {
+    console.log('keyword',keyword);
+    return this.httpClient.get( 'http://localhost:8083/product/search?keyword=' + keyword ).pipe(
+      catchError(this.errorHandl)
+    );
   }
 }
