@@ -6,27 +6,27 @@ import { VendorComponent } from "./components/pages/vendor/vendor.component";
 
 const appRoutes: Routes = [
   {
-    path: "",
-    redirectTo: "home",
-    pathMatch: "full",
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
   },
   {
-    path: "home",
+    path: 'home',
     component: HomeComponent,
   },
   {
-    path: "",
+    path: '',
     component: MainComponent,
     children: [
       {
-        path: "home",
+        path: 'home',
         loadChildren: () =>
-          import("./components/shop/shop.module").then((m) => m.ShopModule),
+          import('./components/shop/shop.module').then((m) => m.ShopModule),
       },
       {
-        path: "pages",
+        path: 'pages',
         loadChildren: () =>
-          import("./components/pages/pages.module").then((m) => m.PagesModule),
+          import('./components/pages/pages.module').then((m) => m.PagesModule),
       },
     ],
   },

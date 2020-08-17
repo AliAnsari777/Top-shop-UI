@@ -7,7 +7,7 @@ import { Category } from "../../../modals/Category";
 import { Product } from "../../../modals/product.model";
 
 // Get product from Localstorage
-let products = JSON.parse(localStorage.getItem("compareItem")) || [];
+const products = JSON.parse(localStorage.getItem("compareItem")) || [];
 
 // let products=this.getproducts().subscribe(
 //   response =>{this.employees = response;}
@@ -17,10 +17,10 @@ let products = JSON.parse(localStorage.getItem("compareItem")) || [];
   providedIn: "root",
 })
 export class ProductService {
-  public currency: string = "USD";
-  public catalogMode: boolean = false;
+  public currency = "USD";
+  public catalogMode = false;
   private productUrl: string;
-  private _url: string = "assets/data/";
+  private _url = "assets/data/";
   public url = "assets/data/banners.json";
 
   public compareProducts: BehaviorSubject<Product[]> = new BehaviorSubject([]);
@@ -30,17 +30,21 @@ export class ProductService {
     this.compareProducts.subscribe((products) => (products = products));
     this.productUrl = "http://localhost:8080/product-service/product/";
   }
-  //======================
+  // ======================
 
   getproducts() {
     return this.httpClient.get<Product[]>(
-      "http://localhost:8083/product/getAll"
+
+      'http://localhost:8083/product/approved'
+
     );
   }
-  //===========================
+  // ===========================
   private products(): Observable<Product[]> {
     return this.httpClient.get<Product[]>(
-      "http://localhost:8083/product/getAll"
+
+      'http://localhost:8083/product/approved'
+
     );
   }
 
@@ -84,7 +88,7 @@ export class ProductService {
       observer.next(products);
       observer.complete();
     });
-    return <Observable<Product[]>>itemsStream;
+    return itemsStream as Observable<Product[]>;
   }
 
   // If item is aleready added In compare
@@ -96,7 +100,7 @@ export class ProductService {
   // Add to compare
   public addToCompare(product: Product): Product | boolean {
     let message, status;
-    var item: Product | boolean = false;
+    let item: Product | boolean = false;
     if (this.hasProduct(product)) {
       item = products.filter((item) => item.id === product.id)[0];
       const index = products.indexOf(item);
@@ -152,7 +156,7 @@ export class ProductService {
   }
   createProduct(product, image) {
     // const options = { responseType: 'text' as 'json', headers };
-    let body = new FormData();
+    const body = new FormData();
     // for (let image of images) {
     //   body.append('images', image);
     // }
@@ -185,5 +189,16 @@ export class ProductService {
     console.log(">>> erroe message: ", errorMessage);
     console.log(">>> erroe : ", error);
     return throwError(errorMessage);
+  }
+  getCategories() {
+    return this.httpClient
+      .get("http://localhost:8083/category/getAll")
+      .pipe(catchError(this.errorHandl));
+  }
+  searchProducts(keyword) {
+    console.log('keyword',keyword);
+    return this.httpClient.get( 'http://localhost:8083/product/search?keyword=' + keyword ).pipe(
+      catchError(this.errorHandl)
+    );
   }
 }

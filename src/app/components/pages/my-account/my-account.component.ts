@@ -9,6 +9,11 @@ import { UserAccount } from "../../../models/userModel/UserAccount";
 import { PaymentInformation } from "../../../models/userModel/PaymentInformation";
 import { Router } from "@angular/router";
 import { NgxSpinnerService } from "ngx-spinner";
+import {CartItem} from "../../../modals/cart-item";
+import {Observable, of} from "rxjs";
+import {CartService} from "../../shared/services/cart.service";
+import {CheckoutService} from "../../../services/checkout.service";
+import {OrderItem} from "../../../models/userModel/OrderItem";
 
 @Component({
   selector: "app-my-account",
@@ -20,8 +25,14 @@ export class MyAccountComponent implements OnInit {
   public username;
   public password;
   name = new FormControl("");
+  public cartItems : Observable<OrderItem[]> = of([]);
+  public shoppingCartItems  : OrderItem[] = [];
+
+  private checkoutItems : CartItem[] = [];
+  order: boolean;
 
   constructor(
+    private cartService: CartService , private checkoutService: CheckoutService,
     private _service: UserService,
     private _snackBar: MatSnackBar,
     private router: Router,
@@ -29,6 +40,10 @@ export class MyAccountComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.cartItems = this.cartService.getProducts();
+    this.cartItems.subscribe(shoppingCartItems =>{ this.shoppingCartItems = shoppingCartItems
+      console.log('shoppring cart items',this.shoppingCartItems);
+    });
     this.isLoggedIn = this._service.checkCredentials();
     let i = window.location.href.indexOf("code");
     if (!this.isLoggedIn && i != -1) {
@@ -100,5 +115,14 @@ export class MyAccountComponent implements OnInit {
     });
     this.spinner.hide();
     element.reset();
+  }
+
+  public getTotal(): Observable<number> {
+    return this.cartService.getTotalAmount();
+  }
+
+
+  displayOrder() {
+    this.order= !this.order;
   }
 }

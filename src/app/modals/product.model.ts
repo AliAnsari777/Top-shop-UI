@@ -22,7 +22,7 @@ export class Product {
   price?: number;
   salePrice?: number;
   discount?: number;
-  picture_url?: string;
+  pictureUrl?: string;
   shortDetails?: string;
   description?: string;
   quantity?: number;
@@ -46,7 +46,7 @@ export class Product {
     newPro?: boolean,
     brand?: string,
     sale?: boolean,
-    // category?: Category,
+    category?: Category,
     tags?: ProductTags[],
     colors?: ProductColor[]
   ) {
@@ -55,14 +55,14 @@ export class Product {
     this.price = price;
     this.salePrice = salePrice;
     this.discount = discount;
-    this.picture_url = pictures;
+    this.pictureUrl = pictures;
     this.shortDetails = shortDetails;
     this.description = description;
     this.quantity = quantity;
     this.newPro = newPro;
     this.brand = brand;
     this.sale = sale;
-    // this.category = new Category(category.id);
+    this.category = new Category();
     this.tags = tags;
     this.colors = colors;
   }
