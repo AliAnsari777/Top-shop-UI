@@ -56,18 +56,13 @@
               ngClass.sm="mt-1"
               ngClass.xs="mt-1"
             >
-              <mat-form-field class="w-100">
-                <input
-                  matInput
-                  placeholder="Category"
-                  #category="ngModel"
-                  ngModel
-                  name="category"
-                  required
-                />
-                <mat-error *ngIf="category.invalid"
-                  >Please enter a valid message</mat-error
-                >
+              <mat-form-field class="w-100" appearance="fill">
+                <mat-label>select Category</mat-label>
+                <mat-select name="category" id="category" ngModel>
+                  <mat-option *ngFor="let cat of categories" [value]="cat.id">{{
+                    cat.name
+                  }}</mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
 
@@ -170,12 +165,12 @@
                 <input
                   matInput
                   placeholder="Status"
-                  #status="ngModel"
+                  #newPro="ngModel"
                   ngModel
-                  name="status"
+                  name="newPro"
                   required
                 />
-                <mat-error *ngIf="status.invalid"
+                <mat-error *ngIf="newPro.invalid"
                   >Please enter a valid message</mat-error
                 >
               </mat-form-field>
@@ -218,6 +213,7 @@
                 (change)="uploadFile($event)"
                 id="customFile"
                 name="filename"
+                required
               />
               <label class="custom-file-label" for="customFile"
                 >Choose image</label
