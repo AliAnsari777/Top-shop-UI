@@ -7,12 +7,14 @@ import {
 } from "@angular/core";
 
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { MatDialog } from "@angular/material";
+import { MatDialog, MatSnackBar } from "@angular/material";
 import { SwiperDirective, SwiperConfigInterface } from "ngx-swiper-wrapper";
 import { ProductZoomComponent } from "./product-zoom/product-zoom.component";
 import { ProductService } from "../../../shared/services/product.service";
 import { Product } from "../../../../modals/product.model";
 import { CartService } from "../../../shared/services/cart.service";
+import { CartItem } from "../../../../modals/cart-item";
+import { JsonPipe } from "@angular/common";
 
 @Component({
   selector: "app-product-details",
@@ -42,7 +44,8 @@ export class ProductDetailsComponent implements OnInit {
     public productsService: ProductService,
     public dialog: MatDialog,
     private router: Router,
-    private cartService: CartService
+    private cartService: CartService,
+    private snackBar: MatSnackBar
   ) {
     this.route.params.subscribe((params) => {
       const id = +params["id"];
@@ -126,8 +129,22 @@ export class ProductDetailsComponent implements OnInit {
 
   // Add to cart
   public buyNow(product: Product, quantity) {
-    if (quantity > 0) this.cartService.addToCart(product, parseInt(quantity));
-    this.router.navigate(["/pages/checkout"]);
+    if (quantity > 0 && product.quantity > 0) {
+      this.cartService.addToCart(product, parseInt(quantity));
+      let temp = localStorage.getItem("cartItem")
+      let cart: CartItem[] =  temp ? JSON.parse(temp) : []
+      let item: CartItem = {product: product , quantity: quantity}
+      cart.push(item)
+      localStorage.setItem("cartItem" , JSON.stringify(cart))
+      localStorage.setItem("checkoutItem" , JSON.stringify([item]))
+
+
+      this.router.navigate(["/pages/checkout"]);
+    } else {
+      this.snackBar.open("Either our stock is out or you have to put the quantity you need" , "Dismiss", {
+        duration: 3000
+      })
+    }
   }
   public onMouseMove(e) {
     if (window.innerWidth >= 1280) {

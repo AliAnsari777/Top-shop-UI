@@ -28,7 +28,7 @@ export class CheckoutComponent implements AfterViewInit {
   amount: number;
   payments: string[] = ["Create an Account?", "Flat Rate"];
 
-  paymentInformations: PaymentInformation[] = [new PaymentInformation()];
+  paymentInformations: PaymentInformation[] = [];
   billingInformations: BillingInformation[] = [new BillingInformation()];
 
   billingChosed: BillingInformation;
@@ -47,10 +47,12 @@ export class CheckoutComponent implements AfterViewInit {
   ngAfterViewInit() {}
 
   ngOnInit() {
-    this.cartItems = this.cartService.getItems();
+    //this.cartItems = this.cartService.getItems();
     this.cartItems = of(this.cartService.getCheckoutItems());
 
-    this.cartItems.subscribe((products) => (this.buyProducts = products));
+    this.cartItems.subscribe((products) => {
+      this.buyProducts = products
+    });
     this.getTotal().subscribe((amount) => (this.amount = amount));
 
     this.getInformation();
@@ -107,28 +109,40 @@ export class CheckoutComponent implements AfterViewInit {
 
   getInformation() {
     let id: string = Cookie.get("user_id");
+    console.log("FETCH USER INFORMATION ..........." , id)
+    
     if (id) {
+      console.log("BEFORE FETCHING USER INFORMATION ...........")
       this.http
         .get<UserAccountDTO>("http://localhost:8086/api/user/getByAccountId/" + id)
         .subscribe(
           (response) => {
+            console.log(response)
             let arr: BillingInformation[] = [];
 
             for (let address of response.addressList) {
               arr.splice(0, 0,{
-                firstName: response.userAccount.firstName,
-                lastName: response.userAccount.lastName,
-                email: response.userAccount.email,
-                address: address.addressLineOne + " " + address.addressLineTwo,
-                town: address.city,
-                state: address.state,
+                firstName: response.userAccount.firstName || "",
+                lastName: response.userAccount.lastName || "",
+                email: response.userAccount.email || "",
+                address: address.addressLineOne || ""+ " " + address.addressLineTwo || "",
+                town: address.city || "",
+                state: address.state || "",
                 phone: "",
               });
             }
 
-            this.paymentInformations = [
-              ...response.paymentInformation, ...this.paymentInformations
-            ];
+            this.billingInformations = [...arr , new BillingInformation()];
+
+            for(let paymentInfo of response.paymentInformation){
+              this.paymentInformations.push({
+                ...paymentInfo,
+                cardNumber: paymentInfo.cardNumber.substring(0,4) + "-" + paymentInfo.cardNumber.substring(4,8) + "-" 
+                          + paymentInfo.cardNumber.substring(8,12) + "-" + paymentInfo.cardNumber.substring(12,16),
+                secDigit: ""
+              })
+            }
+            this.paymentInformations.push(new PaymentInformation())
           },
           (err) => {
             console.log(err);

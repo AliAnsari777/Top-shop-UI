@@ -209,6 +209,11 @@ export class MainComponent implements OnInit {
           route: "/pages/checkout",
         },
         {
+          displayName: "Confirmation Page",
+          iconName: "confirmation",
+          route: "/pages/confirmation-page"
+        },
+        {
           displayName: "Cart",
           iconName: "group",
           route: "/pages/cart",

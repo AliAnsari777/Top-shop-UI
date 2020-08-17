@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { MainComponent } from './components/main/main.component';
-import { HomeComponent } from './components/shop/home-three/home.component';
-import { ConfirmationPageComponent } from './components/pages/checkout/confirmation-page/confirmation-page.component';
-import { VendorComponent } from './components/pages/vendor/vendor.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { MainComponent } from "./components/main/main.component";
+import { HomeComponent } from "./components/shop/home-three/home.component";
+import { VendorComponent } from "./components/pages/vendor/vendor.component";
 
 const appRoutes: Routes = [
   {
@@ -32,10 +31,9 @@ const appRoutes: Routes = [
     ],
   },
   {
-    path: '**',
-    redirectTo: '',
-  },
-  { path: 'confirmation-page', component: ConfirmationPageComponent },
+    path: "**",
+    redirectTo: "",
+  }
 ];
 
 @NgModule({

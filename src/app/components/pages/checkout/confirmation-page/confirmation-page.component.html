@@ -1,75 +1,10 @@
 <div class="container">
-    <div class="cart-wrapper sec-padding">
-
-        <div style="text-align: center;">
+        <div style="text-align: center; margin: auto; margin-top: 100px;">
             <h1> Thank you for shopping at Top Shop! </h1>
-            <h3> ❤ Each purchase you make is a real benediction for us ❤ </h3>
+            <h3 style="text-align: center; margin: auto;"> ❤ Each purchase you make is a real benediction for us ❤ </h3>
+
+            <a style="margin: auto; margin-top: 50px;" mat-raised-button class="btn-project" [routerLink]="['/home/one']"
+                routerLinkActive="router-link-active">Go back to shopping</a>
         </div>
-
-
-        <!-- <div class="perso-info">
-            <h4>Your information: </h4>
-            <mat-divider></mat-divider>
-            <p>  </p> Full Name
-            <p>  </p> card info
-            <p>  </p> email
-            <p>  </p> phone
-        </div>
-
-        <div class="shipping-info">
-            <h4>Billing Address: </h4>
-            <mat-divider></mat-divider>
-            <p>  </p> Address
-            <p>  </p> city
-            <p>  </p> state
-            <p>  </p> country ZIP
-
-        </div>
-
-        <div class="billing-info">
-            <h4>Shipping Address: </h4>
-            <mat-divider></mat-divider>
-            <p>  </p> Address
-            <p>  </p> city
-            <p>  </p> state
-            <p>  </p> country ZIP
-        </div> -->
-
-        <mat-card class="p-0">
-            <!-- <div class="mat-table cart-table">
-                <div class="mat-header-row">
-                    <div class="mat-header-cell">Product</div>
-                    <div class="mat-header-cell">Name</div>
-                    <div class="mat-header-cell">Price</div>
-                    <div class="mat-header-cell">Quantity</div>
-                    <div class="mat-header-cell">Total</div>
-                </div>
-                <div *ngFor="let item of shoppingCartItems" class="mat-row">
-                    <div class="mat-cell"><img [src]="item.product.pictures[0].small"></div>
-                    <div class="mat-cell"><a class="product-name">{{item.product.name}}</a></div>
-                    <div class="mat-cell price">{{item.product.price | number : '1.2-2'}}</div>
-                    <div class="mat-cell text-muted">
-                        <div fxLayout="row" fxLayout.xs="column" class="text-muted">
-                            <div fxLayout="row" fxLayoutAlign="center start">
-                                <input type="text" name="quantity" [(ngModel)]="item.quantity" disabled
-                                    class="form-control input-number">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mat-cell total">{{item.product.price * item.quantity | number : '1.2-2' }}</div>
-                </div>
-
-                <div fxLayout="column" fxLayoutAlign="center end" class="grand-total px-2">
-                    <span class="new-price">Grand total:
-                        {{getTotal()  | async | currency:productsService?.currency:'symbol'}}</span>
-                </div> -->
-
-                <div class="mat-row">
-                    <a mat-raised-button class="btn-project" [routerLink]="['/home/one']"
-                        routerLinkActive="router-link-active">Go back to shopping</a>
-                </div>
-            <!-- </div> -->
-    
-    </mat-card>
-</div>
+        
 </div>

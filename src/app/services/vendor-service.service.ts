@@ -33,6 +33,7 @@ export class VendorService {
           this.saveToken(data);
         },
         (err) => {
+          this._snackBar.dismiss();
           this._snackBar.open(
             "Unable to login please insert correct username and password",
             "",
@@ -53,6 +54,7 @@ export class VendorService {
     console.log(data);
     //let userinfo = this.getUserId(data.userAccount.id);
     this._router.navigateByUrl("/vendor");
+    this._snackBar.dismiss();
     this._snackBar.open("Successfully logged in", "", {
       duration: 3000,
     });
@@ -76,6 +78,7 @@ export class VendorService {
     Cookie.delete("access_token");
     Cookie.delete("id_token");
     this._router.navigateByUrl("/");
+    this._snackBar.dismiss();
     this._snackBar.open("Successfully logged out", "", {
       duration: 3000,
     });
@@ -86,6 +89,7 @@ export class VendorService {
     this._http.post<any>("http://localhost:8086/api/vendor", vendor).subscribe(
       (data) => {
         this.spinner.hide();
+        this._snackBar.dismiss();
         this._snackBar.open(
           "vendor account created Please check your email",
           "",
@@ -115,6 +119,7 @@ export class VendorService {
     if (err.error.message == null || err.error.message == "")
       message = "unable to connect to server";
     else message = err.error.message;
+    this._snackBar.dismiss();
     this._snackBar.open(message, "", {
       duration: 3000,
     });

@@ -12,7 +12,7 @@ export class ProceedComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  @Input() modal : boolean;
+  @Input() public modal : boolean;
 
   @Output() placeOrder = new EventEmitter();
 
@@ -20,9 +20,10 @@ export class ProceedComponent implements OnInit {
 
   checkout(){
     this.placeOrder.emit();
+    this.close()
   }
 
-  close(){
+  public close(){
     this.modal = false;
     this.closeModal.emit(this.modal)
   }

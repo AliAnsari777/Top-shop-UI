@@ -9,6 +9,7 @@ export class Order {
     status? : string;
     amount? : number;
     orderDetails? : OrderDetail[];
+    error? : string;
 
     constructor(userId : string, userName : string, createdDate : string, 
                 status : string, amount : number, orderDetails : OrderDetail[]){

@@ -46,6 +46,7 @@ export class WishlistService {
     }
     message = 'The product ' + product.name + ' has been added to wishlist.';
             status = 'success';
+            this.snackBar.dismiss();
             this.snackBar.open(message, '×', { panelClass: [status], verticalPosition: 'top', duration: 3000 });
       localStorage.setItem("wishlistItem", JSON.stringify(products));
       return item;

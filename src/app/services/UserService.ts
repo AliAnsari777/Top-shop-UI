@@ -32,6 +32,7 @@ export class UserService {
           this.saveToken(data);
         },
         (err) => {
+          this._snackBar.dismiss();
           this._snackBar.open(
             "Unable to login please insert correct username and password",
             "",
@@ -42,12 +43,28 @@ export class UserService {
         }
       );
     this.spinner.hide();
-    this.cartService.getCartId();
+    setTimeout(() => this.cartService.getCartId() , 2000);
   }
   saveToken(data) {
+    localStorage.removeItem("cart_id")
+
+    // var expireDate = new Date().getTime() + 1000 * data.token.expires_in;
+    // Cookie.set("access_token", data.token, expireDate);
+    // Cookie.set("id_token", data.token.id_token, expireDate);
+    // Cookie.set("user_id", data.userAccount.id);
+    // this.cartService.getNewItems()
+    // console.log();
+    // console.log(data);
+    // //let userinfo = this.getUserId(data.userAccount.id);
+    
+    // this._snackBar.dismiss();
+    // this._snackBar.open("Successfully logged in", "", {
+    //   duration: 3000,
+    // });
+    // this._router.navigateByUrl("/");
 
 
-    //let userinfo = this.getUserId(data.userAccount.id);
+    // //let userinfo = this.getUserId(data.userAccount.id);
     console.log("role",data.userAccount.role);
     if(data.userAccount.role!="REGISTERED_USER"){
       this._snackBar.open(
@@ -64,10 +81,12 @@ export class UserService {
       Cookie.set("access_token", data.token, expireDate);
       Cookie.set("id_token", data.token.id_token, expireDate);
       Cookie.set("user_id", data.userAccount.id);
+      this.cartService.getNewItems()
       console.log();
       console.log(data);
 
       this._router.navigateByUrl("/");
+      this._snackBar.dismiss()
       this._snackBar.open("Successfully logged in", "", {
         duration: 3000,
       });
@@ -95,7 +114,9 @@ export class UserService {
     Cookie.delete("user_id");
     Cookie.deleteAll();
     localStorage.clear()
-    this._router.navigateByUrl("/");
+    window.location.replace("/")
+    //this._router.navigateByUrl("/");
+    this._snackBar.dismiss();
     this._snackBar.open("Successfully logged out", "", {
       duration: 3000,
     });
@@ -108,6 +129,7 @@ export class UserService {
       .subscribe(
         (data) => {
           this.spinner.hide();
+          this._snackBar.dismiss();
           this._snackBar.open(
             "user account created Please check your email",
             "",
@@ -137,6 +159,7 @@ export class UserService {
     if (err.error.message == null || err.error.message == "")
       message = "unable to connect to server";
     else message = err.error.message;
+    this._snackBar.dismiss();
     this._snackBar.open(message, "", {
       duration: 3000,
     });

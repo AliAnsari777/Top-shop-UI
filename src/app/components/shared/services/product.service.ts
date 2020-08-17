@@ -104,16 +104,18 @@ export class ProductService {
     if (this.hasProduct(product)) {
       item = products.filter((item) => item.id === product.id)[0];
       const index = products.indexOf(item);
+      this.snackBar.dismiss();
       this.snackBar.open(
         "The product  " + product.name + " already added to comparison list.",
         "×",
-        { panelClass: "error", verticalPosition: "top", duration: 3000 }
+        { panelClass: "snack-error", verticalPosition: "top", duration: 3000 }
       );
     } else {
       if (products.length < 4) products.push(product);
       message =
         "The product " + product.name + " has been added to comparison list.";
       status = "success";
+      this.snackBar.dismiss();
       this.snackBar.open(message, "×", {
         panelClass: [status],
         verticalPosition: "top",
