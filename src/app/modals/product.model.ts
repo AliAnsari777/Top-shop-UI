@@ -1,20 +1,20 @@
 // Product Tag
-import { Category } from './Category';
+import { Category } from "./Category";
 
-export type ProductTags = 'nike' | 'puma' | 'lifestyle' | 'caprese';
+export type ProductTags = "nike" | "puma" | "lifestyle" | "caprese";
 
 // Product Colors
 export type ProductColor =
-  | 'white'
-  | 'black'
-  | 'red'
-  | 'green'
-  | 'purple'
-  | 'yellow'
-  | 'blue'
-  | 'gray'
-  | 'orange'
-  | 'pink';
+  | "white"
+  | "black"
+  | "red"
+  | "green"
+  | "purple"
+  | "yellow"
+  | "blue"
+  | "gray"
+  | "orange"
+  | "pink";
 
 export class Product {
   id?: number;
@@ -45,7 +45,8 @@ export class Product {
     quantity?: number,
     newPro?: boolean,
     brand?: string,
-    sale?: boolean, category?: Category,
+    sale?: boolean,
+    category?: Category,
     tags?: ProductTags[],
     colors?: ProductColor[]
   ) {
@@ -61,7 +62,7 @@ export class Product {
     this.newPro = newPro;
     this.brand = brand;
     this.sale = sale;
-     this.category = new Category();
+    this.category = new Category();
     this.tags = tags;
     this.colors = colors;
   }

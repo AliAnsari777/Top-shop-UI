@@ -436,6 +436,7 @@
       </div>
     </mat-card>
 
+
     <mat-card
       fxLayout="row"
       fxLayout.lt-sm="column"
@@ -443,6 +444,113 @@
       class="p-0"
       *ngIf="isLoggedIn"
     >
+
+      <button
+        class="btn-project"
+        mat-raised-button
+        color="accent"
+      (click)="displayOrder()">
+        My Orders
+      </button>
+
+
+
+      <div class="container"  *ngIf="order">
+        <div class="cart-wrapper sec-padding">
+          <div fxLayout="column" fxLayoutAlign="space-around center" *ngIf="!shoppingCartItems.length">
+            <mat-chip-list>
+              <mat-chip color="warn" selected="true">YOU HAVE NO ORDERS</mat-chip>
+            </mat-chip-list>
+          </div>
+
+          <mat-card *ngIf="shoppingCartItems.length"  class="p-0">
+            <div class="mat-table cart-table" *ngFor="let order of shoppingCartItems; let i = index ">
+              <hr>
+              <hr>
+              <hr>
+<!--              start -->
+
+                <div fxLayout="row wrap" class="info-bar pb-0">
+                  <div
+                    class="card-wrap"
+                    fxFlex="100"
+                    fxFlex.gt-md="25"
+                    fxFlex.gt-xs="50">
+                    <mat-card
+                      class="light-block"
+                      fxLayout="row"
+                      fxLayoutAlign="start center">
+                      <div class="content">
+                        <p>Order Id {{order
+                          .orderId}}</p>
+                      </div>
+                    </mat-card>
+                  </div>
+                  <div
+                    class="card-wrap"
+                    fxFlex="100"
+                    fxFlex.gt-md="25"
+                    fxFlex.gt-xs="50">
+                    <mat-card
+                      class="light-block"
+                      fxLayout="row"
+                      fxLayoutAlign="start center">
+                      <div class="content">
+                        <p>created date {{order.createdDate}}</p>
+                      </div>
+                    </mat-card>
+                  </div>
+                  <div
+                    class="card-wrap"
+                    fxFlex="100"
+                    fxFlex.gt-md="25"
+                    fxFlex.gt-xs="50">
+                    <mat-card
+                      class="light-block"
+                      fxLayout="row"
+                      fxLayoutAlign="start center">
+                      <div class="content">
+                        <p>Status   <span class="">{{order.status}}</span></p>
+                      </div>
+                    </mat-card>
+                  </div>
+                  <div
+                    class="card-wrap"
+                    fxFlex="100"
+                    fxFlex.gt-md="25"
+                    fxFlex.gt-xs="50">
+                    <mat-card
+                      class="light-block"
+                      fxLayout="row"
+                      fxLayoutAlign="start center">
+                      <div class="content">
+                        <p>Total Price  {{order.amount}}</p>
+                      </div>
+                    </mat-card>
+                  </div>
+                </div>
+              <!--              end-->
+              <h2>Order Details</h2>
+
+              <div class="mat-row">
+                <div class="mat-header-cell">Name</div>
+                <div class="mat-header-cell">Price</div>
+                <div class="mat-header-cell">Quantity</div>
+                <div class="mat-header-cell">Total Price</div>
+              </div>
+              <div *ngFor="let orderDetail of order.orderDetails ; let index = index"  class="mat-row">
+<!--                <div class="mat-cell"><img [src]="item.orderDetails.pictures[0].small"></div>-->
+                <div class="mat-cell"><a  class="product-name">{{orderDetail.productName}}</a></div>
+                <div class="mat-cell price">{{orderDetail.unitPrice | number : '1.2-2'}}</div>
+                <div class="mat-cell price"><input type="text" name="quantity"  [(ngModel)]="orderDetail.quantity" disabled class="form-control input-number"></div>
+                <div class="mat-cell total">{{orderDetail.unitPrice * orderDetail.quantity | number : '1.2-2' }}</div>
+              </div>
+              <hr>
+
+            </div>
+          </mat-card>
+        </div>
+      </div>
     </mat-card>
   </div>
 </div>

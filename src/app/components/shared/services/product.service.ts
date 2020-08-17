@@ -1,46 +1,50 @@
-import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, Subscriber, throwError } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { MatSnackBar } from '@angular/material';
-import { map, catchError } from 'rxjs/operators';
-import { Category } from '../../../modals/Category';
-import { Product } from '../../../modals/product.model';
+import { Injectable } from "@angular/core";
+import { Observable, BehaviorSubject, Subscriber, throwError } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { MatSnackBar } from "@angular/material";
+import { map, catchError } from "rxjs/operators";
+import { Category } from "../../../modals/Category";
+import { Product } from "../../../modals/product.model";
 
 // Get product from Localstorage
-const products = JSON.parse(localStorage.getItem('compareItem')) || [];
+const products = JSON.parse(localStorage.getItem("compareItem")) || [];
 
 // let products=this.getproducts().subscribe(
 //   response =>{this.employees = response;}
 //  );
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ProductService {
-  public currency = 'USD';
+  public currency = "USD";
   public catalogMode = false;
   private productUrl: string;
-  private _url = 'assets/data/';
-  public url = 'assets/data/banners.json';
+  private _url = "assets/data/";
+  public url = "assets/data/banners.json";
 
   public compareProducts: BehaviorSubject<Product[]> = new BehaviorSubject([]);
   public observer: Subscriber<{}>;
 
   constructor(private httpClient: HttpClient, public snackBar: MatSnackBar) {
     this.compareProducts.subscribe((products) => (products = products));
-    this.productUrl = 'http://localhost:8080/product-service/product/';
+    this.productUrl = "http://localhost:8080/product-service/product/";
   }
   // ======================
 
   getproducts() {
     return this.httpClient.get<Product[]>(
+
       'http://localhost:8083/product/approved'
+
     );
   }
   // ===========================
   private products(): Observable<Product[]> {
     return this.httpClient.get<Product[]>(
+
       'http://localhost:8083/product/approved'
+
     );
   }
 
@@ -101,22 +105,22 @@ export class ProductService {
       item = products.filter((item) => item.id === product.id)[0];
       const index = products.indexOf(item);
       this.snackBar.open(
-        'The product  ' + product.name + ' already added to comparison list.',
-        '×',
-        { panelClass: 'error', verticalPosition: 'top', duration: 3000 }
+        "The product  " + product.name + " already added to comparison list.",
+        "×",
+        { panelClass: "error", verticalPosition: "top", duration: 3000 }
       );
     } else {
       if (products.length < 4) products.push(product);
       message =
-        'The product ' + product.name + ' has been added to comparison list.';
-      status = 'success';
-      this.snackBar.open(message, '×', {
+        "The product " + product.name + " has been added to comparison list.";
+      status = "success";
+      this.snackBar.open(message, "×", {
         panelClass: [status],
-        verticalPosition: 'top',
+        verticalPosition: "top",
         duration: 3000,
       });
     }
-    localStorage.setItem('compareItem', JSON.stringify(products));
+    localStorage.setItem("compareItem", JSON.stringify(products));
     return item;
   }
 
@@ -127,7 +131,7 @@ export class ProductService {
     }
     const index = products.indexOf(product);
     products.splice(index, 1);
-    localStorage.setItem('compareItem', JSON.stringify(products));
+    localStorage.setItem("compareItem", JSON.stringify(products));
   }
 
   // Get Products By category
@@ -135,7 +139,7 @@ export class ProductService {
     return this.products().pipe(
       map((items) =>
         items.filter((item: Product) => {
-          if (category == 'all') return item;
+          if (category == "all") return item;
           else return item.category.name === category;
         })
       )
@@ -144,7 +148,7 @@ export class ProductService {
 
   addProduct(newProduct: Product) {
     return this.httpClient.post<Product>(
-      'http://localhost:8083/product/upload',
+      "http://localhost:8083/product/upload",
       Product
     );
   }
@@ -155,20 +159,20 @@ export class ProductService {
     //   body.append('images', image);
     // }
 
-    body.append('image', image);
+    body.append("image", image);
     body.append(
-      'product',
+      "product",
       new Blob([JSON.stringify(product)], {
-        type: 'application/json',
+        type: "application/json",
       })
     );
 
     return this.httpClient
-      .post('http://localhost:8083/product/upload', body)
+      .post("http://localhost:8083/product/upload", body)
       .pipe(catchError(this.errorHandl));
   }
   errorHandl(error) {
-    let errorMessage = '';
+    let errorMessage = "";
     if (error.error instanceof ErrorEvent) {
       // Get client-side error
       errorMessage = error.error.message;
@@ -180,12 +184,13 @@ export class ProductService {
       errorMessage = error.error;
       // `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    console.log('>>> erroe message: ', errorMessage);
-    console.log('>>> erroe : ', error);
+    console.log(">>> erroe message: ", errorMessage);
+    console.log(">>> erroe : ", error);
     return throwError(errorMessage);
   }
   getCategories() {
-    return this.httpClient.get('http://localhost:8083/category/getAll')
+    return this.httpClient
+      .get("http://localhost:8083/category/getAll")
       .pipe(catchError(this.errorHandl));
   }
   searchProducts(keyword) {

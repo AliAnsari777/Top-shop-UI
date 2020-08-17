@@ -56,33 +56,15 @@
               ngClass.sm="mt-1"
               ngClass.xs="mt-1"
             >
-              <mat-form-field class="w-100">
-                <mat-label>Select Category</mat-label>
-               <mat-select name="category" id="category" ngModel>
-                  <mat-option *ngFor="let category of categories" [value]="category.id">
-                 {{category.name}}
-                 </mat-option>
-
-
-
-
-               </mat-select>
-<!--                <input-->
-<!--                  matInput-->
-<!--                  placeholder="Category"-->
-<!--                  #category="ngModel"-->
-<!--                  ngModel-->
-<!--                  name="category"-->
-<!--                  required-->
-<!--                />-->
-<!--                <mat-error *ngIf="category.invalid"-->
-<!--                  >Please enter a valid message</mat-error-->
-<!--                >-->
+              <mat-form-field class="w-100" appearance="fill">
+                <mat-label>select Category</mat-label>
+                <mat-select name="category" id="category" ngModel>
+                  <mat-option *ngFor="let cat of categories" [value]="cat.id">{{
+                    cat.name
+                  }}</mat-option>
+                </mat-select>
               </mat-form-field>
-
             </div>
-
-
 
             <div
               fxFlex="100"

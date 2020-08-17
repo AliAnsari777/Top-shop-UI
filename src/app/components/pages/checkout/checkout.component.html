@@ -19,15 +19,15 @@
 
               <mat-radio-button (change)="billingChange($event)" style="margin: 10px;"
                 *ngFor="let address of billingInformations" [value]="address">
-                <mat-card *ngIf="address.firstName || address.lastName" style="min-width: 200px;">
-                  <h4>{{address.firstName}} {{address.lastName}}</h4>
-                  <p> {{address.email}} </p>
-                  <p> {{address.phone}} </p>
-                  <p> {{address.town}} </p>
-                  <p> {{address.state}} {{address.postCode}} {{address.country}} </p>
-                </mat-card>
-                <mat-card *ngIf="!address.firstName && !address.lastName">
-                  <h4>New Billing Information</h4>
+                <mat-card style="min-width: 200px;">
+                  <span *ngIf="address.email && address.phone && address.lastName">
+                    <h4>{{address.firstName}} {{address.lastName}}</h4>
+                    <p> {{address.email}} </p>
+                    <p> {{address.phone}} </p>
+                    <p> {{address.town}} </p>
+                    <p> {{address.state}} {{address.postCode}} {{address.country}} </p>
+                  </span>
+                  <span *ngIf="!address.email && !address.phone && !address.lastName" > New Information </span>
                 </mat-card>
               </mat-radio-button>
             </mat-radio-group>
@@ -36,10 +36,10 @@
 
           <!-- Card info -->
           <h3 style="margin-top: 30px; text-align: center;"> Payment Information </h3>
+          <h4 style="text-align: center;">You may choose among your saved cards: </h4>
 
           <mat-card style="width: 60%; margin:auto; margin-top: 30px; margin-bottom: 30px;"
             *ngIf="paymentInformations.length > 0">
-            <h4 style="text-align: center;">You may choose among your saved cards: </h4>
             <mat-radio-group>
 
               <mat-radio-button (change)="paymentChange($event)" fxLayout="column" style="margin: 10px;"

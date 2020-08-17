@@ -1,33 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Product } from '../../../../modals/product.model';
-import { ProductService } from '../../../shared/services/product.service';
-import {Category} from '../../../../modals/Category';
+import { Component, HostListener, OnInit } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { FormControl } from "@angular/forms";
+import { Router } from "@angular/router";
+import { Product } from "../../../../modals/product.model";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { ProductService } from "../../../shared/services/product.service";
+import { MatDialogRef } from "@angular/material/dialog";
+import { Category } from "../../../../modals/Category";
 
 @Component({
-  selector: 'app-add-product',
-  templateUrl: './addProduct.component.html',
-  styleUrls: ['./addProduct.component.sass'],
+  selector: "app-add-product",
+  templateUrl: "./addProduct.component.html",
+  styleUrls: ["./addProduct.component.sass"],
 })
 export class AddProductComponent implements OnInit {
+  // categories = Array<Category>();
   [x: string]: any;
-  // name = new FormControl("");
-
-  uploadedText = 'Choose file';
+  uploadedText = "Choose file";
   images;
   imageView;
   createdProduct;
   categories;
 
-  constructor(
-    public productService: ProductService
-  ) {}
+  constructor(public productService: ProductService) {}
 
   ngOnInit() {
-    this.getAllCategories();
-    console.log('categories',this.categories);
-
+    this.getCategory();
   }
+
+  // confilict after merging and I didn't find out which one i should keep
+  // addProduct(element: NgForm) {
+  //   let FV = element.value;
+  //   let category = new Category();
+  //   category.id = FV.category;
+  //   this.getAllCategories();
+  //   console.log('categories',this.categories);
+
+  // }
 
   addProduct(element: NgForm) {
     const FV = element.value;
@@ -36,12 +46,17 @@ export class AddProductComponent implements OnInit {
     product.name = FV.name;
     product.quantity = FV.quantity;
     product.price = FV.price;
-    console.log('name',FV.category);
+    console.log("name", FV.category);
     product.category.id = FV.category;
     product.discount = FV.discount;
     product.newPro = FV.newPro;
     product.shortDetails = FV.detail;
+
     product.brand=FV.brand;
+
+
+   
+
     this.productService
       .createProduct(product, this.images[0])
       .subscribe((data) => {
@@ -49,23 +64,26 @@ export class AddProductComponent implements OnInit {
         this.closeDialog(this.createdProduct);
       });
   }
-   getAllCategories() {
-    this.productService.getCategories().subscribe(data => {
-      console.log('category',data);
-      this.categories = data;
-    }, (error) => {
-      this.errorMessage = error;
-    })
+  getAllCategories() {
+    this.productService.getCategories().subscribe(
+      (data) => {
+        console.log("category", data);
+        this.categories = data;
+      },
+      (error) => {
+        this.errorMessage = error;
+      }
+    );
   }
   closeDialog(createdProduct) {
-    this.dialogRef.close({ event: 'close', createdProduct });
+    this.dialogRef.close({ event: "close", createdProduct });
   }
+
   uploadFile(event) {
-    console.log(' >>> upload file: ', event);
-    this.uploadedText = '';
+    this.uploadedText = "";
     this.images = event.target.files;
-    for (const f of event.target.files) {
-      this.uploadedText += f.name + ' , ';
+    for (let file of event.target.files) {
+      this.uploadedText += file.name + " , ";
     }
     const reader = new FileReader();
     reader.onload = (e) => (this.imageView = reader.result);

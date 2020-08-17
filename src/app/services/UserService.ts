@@ -6,6 +6,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import { RegisteredUser } from "../models/userModel/RegisteredUser";
 import { NgxSpinnerService } from "ngx-spinner";
+import { CartService } from "../components/shared/services/cart.service";
 @Injectable()
 export class UserService {
   public clientId = "newClient";
@@ -15,7 +16,8 @@ export class UserService {
     private _http: HttpClient,
     private _snackBar: MatSnackBar,
     private spinner: NgxSpinnerService,
-    private _router: Router
+    private _router: Router,
+    private cartService: CartService
   ) {}
 
   retrieveToken(username, password) {
@@ -40,19 +42,37 @@ export class UserService {
         }
       );
     this.spinner.hide();
+    this.cartService.getCartId();
   }
   saveToken(data) {
-    var expireDate = new Date().getTime() + 1000 * data.token.expires_in;
-    Cookie.set("access_token", data.token, expireDate);
-    Cookie.set("id_token", data.token.id_token, expireDate);
-    Cookie.set("user_id", data.userAccount.id);
-    console.log();
-    console.log(data);
+
+
     //let userinfo = this.getUserId(data.userAccount.id);
-    this._router.navigateByUrl("/");
-    this._snackBar.open("Successfully logged in", "", {
-      duration: 3000,
-    });
+    console.log("role",data.userAccount.role);
+    if(data.userAccount.role!="REGISTERED_USER"){
+      this._snackBar.open(
+        "Unable to login please insert correct username and password",
+        "",
+        {
+          duration: 3000,
+        }
+      );
+      return;
+    }
+    else if(data.userAccount.role=="REGISTERED_USER") {
+      var expireDate = new Date().getTime() + 1000 * data.token.expires_in;
+      Cookie.set("access_token", data.token, expireDate);
+      Cookie.set("id_token", data.token.id_token, expireDate);
+      Cookie.set("user_id", data.userAccount.id);
+      console.log();
+      console.log(data);
+
+      this._router.navigateByUrl("/");
+      this._snackBar.open("Successfully logged in", "", {
+        duration: 3000,
+      });
+
+    }
   }
 
   getResource(resourceUrl) {
@@ -74,6 +94,7 @@ export class UserService {
     Cookie.delete("id_token");
     Cookie.delete("user_id");
     Cookie.deleteAll();
+    localStorage.clear()
     this._router.navigateByUrl("/");
     this._snackBar.open("Successfully logged out", "", {
       duration: 3000,

@@ -1,15 +1,20 @@
-import { Injectable } from '@angular/core';
-import { Product } from '../../../modals/product.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { CartItem } from '../../../modals/cart-item';
-import { map, timeInterval } from 'rxjs/operators';
-import { Observable, BehaviorSubject, Subscriber, of } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Item_detail } from '../../../modals/item_detail';
-import { Cookie } from 'ng2-cookies';
+
+import { Injectable } from "@angular/core";
+import { Product } from "../../../modals/product.model";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { CartItem } from "../../../modals/cart-item";
+import { map, timeInterval } from "rxjs/operators";
+import { Observable, BehaviorSubject, Subscriber, of } from "rxjs";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { Item_detail } from "../../../modals/item_detail";
+import { Cookie } from "ng2-cookies";
+//import {OrderItem} from "../../../models/userModel/OrderItem";
+
 
 // Get product from Localstorage
 const products = JSON.parse(localStorage.getItem('cartItem')) || [];
+
+
 
 @Injectable({
   providedIn: 'root',
@@ -41,14 +46,16 @@ export class CartService {
 
   // Get Products
   public getItems(): Observable<CartItem[]> {
+
     const id = Cookie.get('user_id');
 
-    // if (id != null) {
+
     const itemsStream = new Observable((observer) => {
       observer.next(products);
       observer.complete();
     });
-    return itemsStream as Observable<CartItem[]>;
+
+ //   return itemsStream as Observable<CartItem[]>;
     // } else {
     //   let items: CartItem[] = [];
     //   this.httpClient
@@ -69,8 +76,16 @@ export class CartService {
     //       }
     //     });
 
-    // }
+    return <Observable<CartItem[]>>itemsStream;
   }
+
+
+  public getProducts(): Observable<OrderItem[]> {
+    let id = localStorage.getItem("user_id");
+    id = Cookie.get("user_id");
+    return this.httpClient.get<OrderItem[]>('http://localhost:8080/shopping-cart-service/order/orderwithorderdetail/'+id)
+  }
+
 
   public getCheckoutItems(): CartItem[] {
     return JSON.parse(localStorage.getItem('checkoutItem'));
