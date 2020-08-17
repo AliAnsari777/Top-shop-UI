@@ -45,17 +45,34 @@ export class UserService {
     this.cartService.getCartId();
   }
   saveToken(data) {
-    var expireDate = new Date().getTime() + 1000 * data.token.expires_in;
-    Cookie.set("access_token", data.token, expireDate);
-    Cookie.set("id_token", data.token.id_token, expireDate);
-    Cookie.set("user_id", data.userAccount.id);
-    console.log();
-    console.log(data);
+
+
     //let userinfo = this.getUserId(data.userAccount.id);
-    this._router.navigateByUrl("/");
-    this._snackBar.open("Successfully logged in", "", {
-      duration: 3000,
-    });
+    console.log("role",data.userAccount.role);
+    if(data.userAccount.role!="REGISTERED_USER"){
+      this._snackBar.open(
+        "Unable to login please insert correct username and password",
+        "",
+        {
+          duration: 3000,
+        }
+      );
+      return;
+    }
+    else if(data.userAccount.role=="REGISTERED_USER") {
+      var expireDate = new Date().getTime() + 1000 * data.token.expires_in;
+      Cookie.set("access_token", data.token, expireDate);
+      Cookie.set("id_token", data.token.id_token, expireDate);
+      Cookie.set("user_id", data.userAccount.id);
+      console.log();
+      console.log(data);
+
+      this._router.navigateByUrl("/");
+      this._snackBar.open("Successfully logged in", "", {
+        duration: 3000,
+      });
+
+    }
   }
 
   getResource(resourceUrl) {
