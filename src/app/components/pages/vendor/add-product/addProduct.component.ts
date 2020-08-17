@@ -15,36 +15,42 @@ import { Category } from "../../../../modals/Category";
   styleUrls: ["./addProduct.component.sass"],
 })
 export class AddProductComponent implements OnInit {
-  categories = Array<Category>();
+  // categories = Array<Category>();
   [x: string]: any;
   uploadedText = "Choose file";
   images;
   imageView;
   createdProduct;
+  categories;
 
-  constructor(
-    public httpclient: HttpClient,
-    public productService: ProductService
-  ) {}
+  constructor(public productService: ProductService) {}
 
   ngOnInit() {
     this.getCategory();
   }
 
-  addProduct(element: NgForm) {
-    let FV = element.value;
-    let category = new Category();
-    category.id = FV.category;
+  // confilict after merging and I didn't find out which one i should keep
+  // addProduct(element: NgForm) {
+  //   let FV = element.value;
+  //   let category = new Category();
+  //   category.id = FV.category;
+  //   this.getAllCategories();
+  //   console.log('categories',this.categories);
 
-    var product = new Product();
+  // }
+
+  addProduct(element: NgForm) {
+    const FV = element.value;
+
+    const product = new Product();
     product.name = FV.name;
     product.quantity = FV.quantity;
     product.price = FV.price;
-    product.category_obj = new Category(1, "phone");
+    console.log("name", FV.category);
+    product.category.id = FV.category;
     product.discount = FV.discount;
     product.newPro = FV.status;
     product.shortDetails = FV.detail;
-    product.description = "this is for test";
 
     console.log("category id: " + product.category);
 
@@ -55,9 +61,19 @@ export class AddProductComponent implements OnInit {
         this.closeDialog(this.createdProduct);
       });
   }
-
+  getAllCategories() {
+    this.productService.getCategories().subscribe(
+      (data) => {
+        console.log("category", data);
+        this.categories = data;
+      },
+      (error) => {
+        this.errorMessage = error;
+      }
+    );
+  }
   closeDialog(createdProduct) {
-    this.dialogRef.close({ event: "close", createdProduct: createdProduct });
+    this.dialogRef.close({ event: "close", createdProduct });
   }
 
   uploadFile(event) {
@@ -69,13 +85,5 @@ export class AddProductComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = (e) => (this.imageView = reader.result);
     reader.readAsDataURL(this.images[0]);
-  }
-
-  getCategory() {
-    console.log("this is get category" + this.categories);
-
-    this.productService.getAllCategory().subscribe((data) => {
-      this.categories = data;
-    });
   }
 }

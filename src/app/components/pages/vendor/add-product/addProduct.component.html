@@ -165,12 +165,12 @@
                 <input
                   matInput
                   placeholder="Status"
-                  #status="ngModel"
+                  #newPro="ngModel"
                   ngModel
-                  name="status"
+                  name="newPro"
                   required
                 />
-                <mat-error *ngIf="status.invalid"
+                <mat-error *ngIf="newPro.invalid"
                   >Please enter a valid message</mat-error
                 >
               </mat-form-field>
@@ -213,6 +213,7 @@
                 (change)="uploadFile($event)"
                 id="customFile"
                 name="filename"
+                required
               />
               <label class="custom-file-label" for="customFile"
                 >Choose image</label

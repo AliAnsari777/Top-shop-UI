@@ -12,6 +12,7 @@ import { CheckoutService } from "../../../services/checkout.service";
 import { HttpClient } from "@angular/common/http";
 import { UserDTO } from "../../../modals/dto/user-dto";
 import { Cookie } from "ng2-cookies";
+import { UserAccountDTO } from "../../../modals/dto/user-account-dto";
 
 @Component({
   selector: "app-checkout",
@@ -27,48 +28,8 @@ export class CheckoutComponent implements AfterViewInit {
   amount: number;
   payments: string[] = ["Create an Account?", "Flat Rate"];
 
-  paymentInformations: PaymentInformation[] = [
-    /*{
-      cardNumber: "4956-6580-0568-0385",
-      expDate: "12/2030",
-      nameOnCard: "Mickael",
-      secDigit: "632"
-    },
-    {
-      cardNumber: "5452-6584-4512-5354",
-      expDate: "55/5555",
-      nameOnCard: "Mika",
-      secDigit: "652"
-    },
-    new PaymentInformation()
-
-  ];
-
-  billingInformations: BillingInformation[] = [
-    /*{
-      firstName: "Ny",
-      lastName: "Andriantsoa",
-      email: "nandriantsoa@miu.edu",
-      address: "1000 N 4th Street",
-      town: "Fairfield",
-      state: "IOWA",
-      country: "US",
-      postcode: "52557",
-      phone: "+1 641-451-0220"
-    },
-    {
-      firstName: "Mika",
-      lastName: "",
-      email: "mickael@yahoo.fr",
-      address: "burlington",
-      town: "Ottumwa",
-      state: "IOWA",
-      country: "US",
-      postcode: "52543",
-      phone: "+1 685-451-0220"
-    },
-    new BillingInformation()*/
-  ];
+  paymentInformations: PaymentInformation[] = [new PaymentInformation()];
+  billingInformations: BillingInformation[] = [new BillingInformation()];
 
   billingChosed: BillingInformation;
   paymentChosed: PaymentInformation;
@@ -92,10 +53,9 @@ export class CheckoutComponent implements AfterViewInit {
     this.cartItems.subscribe((products) => (this.buyProducts = products));
     this.getTotal().subscribe((amount) => (this.amount = amount));
 
-    this.getBillingInformation();
-    // this.billingChosed = this.billingInformations[0] || new BillingInformation();
-    this.paymentChosed =
-      this.paymentInformations[0] || new PaymentInformation();
+    this.getInformation();
+    this.billingChosed = this.billingInformations[0] || new BillingInformation();
+    this.paymentChosed = this.paymentInformations[0] || new PaymentInformation();
   }
 
   public getTotal(): Observable<number> {
@@ -145,17 +105,48 @@ export class CheckoutComponent implements AfterViewInit {
     this.billingInfoChild.billingInformation = this.billingChosed;
   }
 
-  getBillingInformation() {
+  getInformation() {
     let id: string = Cookie.get("user_id");
     if (id) {
       this.http
+        .get<UserAccountDTO>("http://localhost:8086/api/user/getByAccountId/" + id)
+        .subscribe(
+          (response) => {
+            let arr: BillingInformation[] = [];
+
+            for (let address of response.addressList) {
+              arr.splice(0, 0,{
+                firstName: response.userAccount.firstName,
+                lastName: response.userAccount.lastName,
+                email: response.userAccount.email,
+                address: address.addressLineOne + " " + address.addressLineTwo,
+                town: address.city,
+                state: address.state,
+                phone: "",
+              });
+            }
+
+            this.paymentInformations = [
+              ...response.paymentInformation, ...this.paymentInformations
+            ];
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    }
+  }
+}
+
+/*
+this.http
         .get<UserDTO>("localhost:8086/api/user/get_guest/" + id)
         .subscribe(
           (response) => {
             let arr: BillingInformation[] = [];
 
             for (let address of response.addressList) {
-              arr.push({
+              arr.splice(0, 0,{
                 firstName: response.firstName,
                 lastName: response.lastName,
                 email: "",
@@ -166,17 +157,13 @@ export class CheckoutComponent implements AfterViewInit {
               });
             }
 
-            // this.billingInformations = [...arr, new BillingInformation()];
-
             this.paymentInformations = [
-              ...response.paymentInformation,
-              new PaymentInformation(),
+              ...response.paymentInformation, ...this.paymentInformations
             ];
           },
           (err) => {
             console.log(err);
           }
         );
-    }
-  }
-}
+
+*/
