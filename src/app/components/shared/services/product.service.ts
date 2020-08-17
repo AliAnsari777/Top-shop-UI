@@ -136,7 +136,7 @@ export class ProductService {
       map((items) =>
         items.filter((item: Product) => {
           if (category == "all") return item;
-          else return item.category.name === category;
+          else return item.category_obj.name === category;
         })
       )
     );
@@ -154,6 +154,8 @@ export class ProductService {
     // for (let image of images) {
     //   body.append('images', image);
     // }
+
+    console.log("this is product service22222: " + product.category_id);
 
     body.append("image", image);
     body.append(
@@ -183,5 +185,11 @@ export class ProductService {
     console.log(">>> erroe message: ", errorMessage);
     console.log(">>> erroe : ", error);
     return throwError(errorMessage);
+  }
+
+  public getAllCategory(): Observable<Category[]> {
+    return this.httpClient.get<Category[]>(
+      "http://localhost:8083/category/getAll"
+    );
   }
 }

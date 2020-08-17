@@ -29,7 +29,8 @@ export class Product {
   newPro?: boolean;
   brand?: string;
   sale?: boolean;
-  category?: Category;
+  category?: number;
+  category_obj?: Category;
   tags?: ProductTags[];
   colors?: ProductColor[];
 
@@ -46,7 +47,8 @@ export class Product {
     newPro?: boolean,
     brand?: string,
     sale?: boolean,
-    // category?: Category,
+    category?: number,
+    category_obj?: Category,
     tags?: ProductTags[],
     colors?: ProductColor[]
   ) {
@@ -62,7 +64,8 @@ export class Product {
     this.newPro = newPro;
     this.brand = brand;
     this.sale = sale;
-    // this.category = new Category(category.id);
+    this.category = category;
+    this.category_obj = category_obj;
     this.tags = tags;
     this.colors = colors;
   }
