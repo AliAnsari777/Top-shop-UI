@@ -25,7 +25,7 @@ import { CartService } from "../../../shared/services/cart.service";
 export class ProductCarouselThreeComponent implements OnInit {
   @Output() onOpenProductDialog: EventEmitter<any> = new EventEmitter();
 
-  @Input("product") product: Array<Product> = [];
+  @Input("product") products: Array<Product> = [];
   public config: SwiperConfigInterface = {};
 
   constructor(

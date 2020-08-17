@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from 'src/app/modals/product.model';
-import { CartItem } from 'src/app/modals/cart-item';
 import { CartService } from '../services/cart.service';
+import { Product } from '../../../modals/product.model';
+import { CartItem } from '../../../modals/cart-item';
 
 @Component({
   selector: 'app-header-three',

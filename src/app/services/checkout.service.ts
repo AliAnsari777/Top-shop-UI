@@ -61,6 +61,7 @@ export class CheckoutService {
           for(let item of cart){
             for (let i = 0 ; i < currentCart.length ; i++){
               if( currentCart[i].product.id === item.product.id ){
+                console.log("it should delete")
                 currentCart.splice(i , 1);
                 break;
               }
@@ -74,6 +75,7 @@ export class CheckoutService {
 
         this.spinner.hide();
         if(response.error.length !== 0){
+          this.snackBar.dismiss();
           this.snackBar.open("Unable to make a purchase </br> " + response.error , "Dismiss" , {
             duration: 3000,
           });
@@ -81,6 +83,7 @@ export class CheckoutService {
   
       }, (err) => {
         this.spinner.hide()
+        this.snackBar.dismiss();
         this.snackBar.open("Unable to make a purchase </br>" + JSON.stringify(err), "Dismiss" , {
           duration: 3000,
         });

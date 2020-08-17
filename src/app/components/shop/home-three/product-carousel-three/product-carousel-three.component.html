@@ -1,6 +1,6 @@
 <div class="product-item swiper-container" [swiper]="config">
   <div class="swiper-wrapper h-100">
-    <div *ngFor="let product of product" class="swiper-slide">
+    <div *ngFor="let product of products" class="swiper-slide">
       <mat-card fxLayout="column">
         <div class="product-img">
           <a class="product-link" [routerLink]="['/home/product', product.id]">

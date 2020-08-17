@@ -68,6 +68,8 @@ export class HomeComponent implements OnInit {
       this.products = product;
       console.log(product);
     });
+
+    this.cartService.cartItems.subscribe((shoppingCartItems) => this.shoppingCartItems = shoppingCartItems )
   }
 
   // Collection banner

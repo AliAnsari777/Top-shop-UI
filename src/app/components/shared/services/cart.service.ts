@@ -32,29 +32,137 @@ export class CartService {
   }
 
   public getCartId() {
-    this.httpClient
-      .get<number>(this.shoppingCartUrl + "cartid/" + this.userId)
-      .subscribe((data) => {
-        this.cartId = data;
-      });
+    this.userId = Cookie.get("user_id");
+    console.log("GET CART ID.............", this.userId)
+    if(this.userId)
+      this.httpClient
+        .get<number>(this.shoppingCartUrl + "cartid/" + this.userId)
+        .subscribe((data) => {
+          console.log(data);
+          this.cartId = data;
+          localStorage.setItem("cart_id" , data.toString())
+        }, (err) => console.log(err));
   }
 
   // Get Products
   public getItems(): Observable<CartItem[]> {
-    let id = Cookie.get("user_id");
-    let itemsStream : Observable<CartItem[]> ;
-    if(id){
-      itemsStream = this.httpClient.get<CartItem[]>("http://localhost:8087/shoppingcart?userid=" + id)
-    }else{
-      itemsStream = new Observable((observer) => {
-        observer.next(products);
-        observer.complete();
-      });
-    }
+    const itemsStream = new Observable((observer) => {
+      observer.next(products);
+      observer.complete();
+    });
     return <Observable<CartItem[]>>itemsStream;
   }
 
+  public getNewItems() {
+    let id = Cookie.get("user_id");
+    if(id){
+      console.log("This is fetching the cart item")
+      this.httpClient.get<CartItem[]>("http://localhost:8087/shoppingcart/cart-id?userId=" + id)
+        .subscribe((data) =>  {
+          console.log("FETCHING CART ITEM......." , data)
+          if(data.length > 0)
+          {
+            let cart : CartItem[] = data;
+
+            for(let i = 0 ; i < data.length ; i++ ){
+              this.httpClient.get<Product>("http://localhost:8083/product/"+ data[i].product.id).subscribe(
+                product => {
+                  console.log("retrieving object.... " , product)
+                  cart[i] = {
+                    quantity: data[i].quantity,
+                    product : product
+                  }
+                },err => console.log("ERROR", err)
+              )
+            }
+
+            setTimeout(() => {
+              console.log("Put items in cart Item" , cart)
+              localStorage.setItem("cartItem" , JSON.stringify(cart))
+              this.cartItems.next(cart);
+            }, 3000 )
+
+          }
+          else{
+            let cart : CartItem[] = JSON.parse(localStorage.getItem("cartItem"))
+            if(cart.length > 0)
+              setTimeout( () => {
+                console.log("This is saving cart items to cart")
+              this.saveCart(cart).subscribe((data) => {
+                console.log("SAVING CART.... " , data)
+              }, (err) => {
+                console.log(err)
+              })} , 3000)
+          } 
+
+          this.cartItems.next(JSON.parse(localStorage.getItem("cartItem")))
+        }, (err) => console.log("ERROR" , err))
+    }
+  }
+
+  /*public getNewItems(): Observable<CartItem[]> {
+    let id = Cookie.get("user_id");
+    let itemsStream : Observable<CartItem[]> ;
+    if(id){
+      console.log("This is fetching the cart item")
+      this.httpClient.get<CartItem[]>("http://localhost:8087/shoppingcart/cart-id?userId=" + id)
+        .subscribe((data) =>  {
+          console.log("FETCHING CART ITEM......." , data)
+          if(data.length > 0)
+          {
+            let cart : CartItem[] = data;
+
+            for(let i = 0 ; i < data.length ; i++ ){
+              this.httpClient.get<Product>("http://localhost:8083/product/"+ data[i].product.id).subscribe(
+                product => {
+                  console.log("retrieving object.... " , product)
+                  cart[i] = {
+                    quantity: data[i].quantity,
+                    product : product
+                  }
+                },err => console.log("ERROR", err)
+              )
+            }
+
+            setTimeout(() => {
+              console.log("Put items in cart Item" , cart)
+              localStorage.setItem("cartItem" , JSON.stringify(cart))
+              this.cartItems.next(cart);
+              itemsStream = of(cart)
+            }, 3000 )
+
+          }
+          else{
+            let cart : CartItem[] = JSON.parse(localStorage.getItem("cartItem"))
+            if(cart.length > 0)
+              setTimeout( () => {
+                console.log("This is saving cart items to cart")
+              this.saveCart(cart).subscribe((data) => {
+                console.log("SAVING CART.... " , data)
+              }, (err) => {
+                console.log(err)
+              })} , 3000)
+          } 
+        }, (err) => console.log("ERROR" , err))
+    }
+
+    products = JSON.parse(localStorage.getItem("cartItem"))
+
+    itemsStream = new Observable((observer) => {
+      observer.next(products);
+      observer.complete();
+    });
+    return <Observable<CartItem[]>>itemsStream;
+  }*/
+  
+  saveCart(cart: CartItem[]) : Observable<boolean> {
+    return this.httpClient.post<boolean>( 
+        "http://localhost:8087/shoppingcart/save-to-cart?cartId" + localStorage.getItem("cart_id") , 
+        cart)
+  }
+
   public getCheckoutItems(): CartItem[] {
+    console.log("Checkout ITEM" , localStorage.getItem("checkoutItem"))
     return JSON.parse(localStorage.getItem("checkoutItem"));
   }
 
@@ -71,6 +179,7 @@ export class CartService {
           products[index]["quantity"] = qty;
           message = "The product " + product.name + " has been added to cart.";
           status = "success";
+          this.snackBar.dismiss()
           this.snackBar.open(message, "×", {
             panelClass: [status],
             verticalPosition: "top",
@@ -83,9 +192,9 @@ export class CartService {
           // this will update the quantity of the product because it is already added to cart
           this.updateItemInShoppingCart(
             product.id.toString(),
-            this.cartId,
+            parseInt(localStorage.getItem("cart_id")),
             qty
-          ).subscribe();
+          ).subscribe((response) => { console.log("UPDATING CART....." , response)} , (err) => {console.log(err)});
         }
         return true;
       }
@@ -97,6 +206,7 @@ export class CartService {
       products.push(item);
       message = "The product " + product.name + " has been added to cart.";
       status = "success";
+      this.snackBar.dismiss()
       this.snackBar.open(message, "×", {
         panelClass: [status],
         verticalPosition: "top",
@@ -112,10 +222,11 @@ export class CartService {
       this.itemDetail.unitPrice = product.price;
       this.itemDetail.subTotal = product.price * quantity;
 
-      this.addToShoppingCartInBackend(this.itemDetail).subscribe();
+      this.addToShoppingCartInBackend(this.itemDetail).subscribe((response) => { console.log("ADDING TO CART.....", response)} , (err) => {console.log(err)});
     }
 
     localStorage.setItem("cartItem", JSON.stringify(products));
+    this.cartItems.next(products);
     return item;
   }
 
@@ -126,12 +237,13 @@ export class CartService {
     let stock = product.product.quantity;
     if (stock < qty) {
       // this.toastrService.error('You can not add more items than available. In stock '+ stock +' items.');
+      this.snackBar.dismiss()
       this.snackBar.open(
         "You can not choose more items than available. In stock " +
           stock +
           " items.",
         "×",
-        { panelClass: "error", verticalPosition: "top", duration: 3000 }
+        { panelClass: "snack-error", verticalPosition: "top", duration: 3000 }
       );
       return false;
     }
@@ -147,8 +259,13 @@ export class CartService {
 
     this.removeItemFromShoppingCart(
       item.product.id.toString(),
-      this.cartId
-    ).subscribe();
+      parseInt(localStorage.getItem("cart_id"))
+    ).subscribe((data) => {
+        console.log("REMOVING FROM CART.......", data)
+      }, (err) => {
+        console.log(err)
+      }
+    );
   }
 
   // Total amount
@@ -175,7 +292,7 @@ export class CartService {
         localStorage.setItem("cartItem", JSON.stringify(products));
         this.updateItemInShoppingCart(
           product.id.toString(),
-          this.cartId,
+          parseInt(localStorage.getItem("cart_id")),
           qty
         ).subscribe();
         return true;
@@ -198,7 +315,7 @@ export class CartService {
   // add item to the item detail table (add item to shopping cart)
   public addToShoppingCartInBackend(itemDetail: Item_detail) {
     return this.httpClient.post<Item_detail>(
-      this.shoppingCartUrl + "additem/" + this.cartId,
+      this.shoppingCartUrl + "additem/" + localStorage.getItem("cart_id"),
       itemDetail
     );
   }

@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { CartService } from 'src/app/components/shared/services/cart.service';
-import { ProductService } from 'src/app/components/shared/services/product.service';
-import { CategoryService } from 'src/app/components/shared/services/category.service';
-import { WishlistService } from 'src/app/components/shared/services/wishlist.service';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { Product } from 'src/app/modals/product.model';
 import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
 import {Category} from "../../../../modals/Category";
+import { Product } from '../../../../modals/product.model';
+import { CartService } from '../../../shared/services/cart.service';
+import { ProductService } from '../../../shared/services/product.service';
+import { CategoryService } from '../../../shared/services/category.service';
+import { WishlistService } from '../../../shared/services/wishlist.service';
 
 @Component({
   selector: 'app-product',
@@ -29,6 +29,7 @@ url='http://localhost:8083/product/getImage?image_id=';
 
      // Add to cart
      public addToCart(product: Product,  quantity: number = 1) {
+       console.log("THIS IS PRODUCT...." , product)
        this.cartService.addToCart(product,quantity);
        // console.log("product check", quantity);
 

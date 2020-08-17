@@ -31,14 +31,21 @@ export class HeaderComponent implements OnInit {
   public isLoggedIn = false;
 
   constructor(private cartService: CartService, private _service: UserService) {
+    
+  }
+
+  ngOnInit() {
     this.cartService
       .getItems()
       .subscribe(
         (shoppingCartItems) => (this.shoppingCartItems = shoppingCartItems)
       );
-  }
 
-  ngOnInit() {
+    // this.cartService.cartItems.subscribe((shoppingCartItems) => {
+    //   console.log("triggrered")
+    //   this.shoppingCartItems = shoppingCartItems;
+    // })
+
     this.isLoggedIn = this._service.checkCredentials();
     this.currency = this.currencies[0];
     this.flag = this.flags[0];
